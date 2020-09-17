@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
-* Студент: [Борис Сидоренко](https://up.htmlacademy.ru/javascript/21/user/851191).
-* Наставник: `Неизвестно`.
+* Студент: [Борис Сидоренко](https://htmlacademy.ru/profile/borissid).
+* Наставник: [Артём Рудов](https://htmlacademy.ru/profile/artrudov).
 
 ---
 

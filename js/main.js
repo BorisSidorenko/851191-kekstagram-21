@@ -6,8 +6,9 @@ const Photo = {
   COMMENTS_COUNT_MIN: 1,
   COMMENT_COUNT_MAX: 6,
   URL_TEMPLATE: 'photos/.jpg',
-  IMG_INDEX_MIN: 1,
-  IMG_INDEX_MAX: 25,
+  IMG_NAMES: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25'],
+  IMG_COUNT_MAX: 25,
+  IMG_COUNT_MIN: 1
 };
 
 const Commentator = {
@@ -37,6 +38,9 @@ const Commentator = {
   AVATAR_NUMBER_MIN: 1,
   AVATAR_NUMBER_MAX: 6
 };
+
+const pictureTemplate = document.querySelector('#picture').content;
+const picturesContainer = document.querySelector('.pictures');
 
 const getRandomArrValue = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -68,7 +72,7 @@ const getCommentator = (count) => {
 
 const getPhoto = () => {
   const photo = {
-    url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_INDEX_MIN, Photo.IMG_INDEX_MAX),
+    url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_COUNT_MIN, Photo.IMG_COUNT_MAX),
     description: '',
     likes: getRandomNumber(Photo.LIKES_COUNT_MIN, Photo.LIKES_COUNT_MAX),
     comments: getCommentator(getRandomNumber(Photo.COMMENTS_COUNT_MIN, Photo.COMMENT_COUNT_MAX))
@@ -77,3 +81,36 @@ const getPhoto = () => {
   return photo;
 };
 
+const getPhotos = (count) => {
+  const photos = [];
+
+  for (let i = 0; i < count; i++) {
+    photos.push(getPhoto());
+  }
+
+  return photos;
+};
+
+const createPictureFragment = () => {
+  const pictureFragment = document.createDocumentFragment();
+
+  getPhotos(Photo.IMG_COUNT_MAX).forEach((photo) => {
+    pictureFragment.appendChild(renderPicture(photo));
+  });
+
+  return pictureFragment;
+};
+
+const addPicturesToDOM = (pictureFragment) => picturesContainer.appendChild(pictureFragment);
+
+const renderPicture = (photo) => {
+  const pictureElement = pictureTemplate.cloneNode(true);
+
+  pictureElement.querySelector('.picture__img').src = photo.url;
+  pictureElement.querySelector('.picture__likes').textContent = photo.likes;
+  pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
+
+  return pictureElement;
+};
+
+addPicturesToDOM(createPictureFragment());

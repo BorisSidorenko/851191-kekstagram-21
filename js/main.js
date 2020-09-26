@@ -6,7 +6,7 @@ const Photo = {
   COMMENTS_COUNT_MIN: 1,
   COMMENT_COUNT_MAX: 6,
   URL_TEMPLATE: 'photos/.jpg',
-  IMG_NAMES: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25'],
+  IMG_NAMES: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
   IMG_COUNT_MAX: 25,
   IMG_COUNT_MIN: 1
 };
@@ -36,7 +36,8 @@ const Commentator = {
   ],
   AVATAR_PATH_TEMPLATE: 'img/avatar-.svg',
   AVATAR_NUMBER_MIN: 1,
-  AVATAR_NUMBER_MAX: 6
+  AVATAR_NUMBER_MAX: 6,
+  AVATAR_NAMES: [1, 2, 3, 4, 5, 6]
 };
 
 const pictureTemplate = document.querySelector('#picture').content;
@@ -46,10 +47,14 @@ const getRandomArrValue = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-const getImgPath = (template, min, max) => {
+const getImgPath = (template, namesArr, isUnique = false) => {
   const position = template.indexOf('.');
+  const name = getRandomArrValue(namesArr);
+  const path = template.substring(0, position) + name + template.substring(position);
 
-  const path = template.substring(0, position) + getRandomNumber(min, max) + template.substring(position);
+  if (isUnique) {
+    namesArr.splice(namesArr.indexOf(name), 1);
+  }
 
   return path;
 };
@@ -59,7 +64,7 @@ const getCommentator = (count) => {
 
   for (let i = 0; i < count; i++) {
     const objCommentator = {
-      avatar: getImgPath(Commentator.AVATAR_PATH_TEMPLATE, Commentator.AVATAR_NUMBER_MIN, Commentator.AVATAR_NUMBER_MAX),
+      avatar: getImgPath(Commentator.AVATAR_PATH_TEMPLATE, Commentator.AVATAR_NAMES),
       message: getRandomArrValue(Commentator.MESSAGES),
       name: getRandomArrValue(Commentator.NAMES)
     };
@@ -72,7 +77,7 @@ const getCommentator = (count) => {
 
 const getPhoto = () => {
   const photo = {
-    url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_COUNT_MIN, Photo.IMG_COUNT_MAX),
+    url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_NAMES, true),
     description: '',
     likes: getRandomNumber(Photo.LIKES_COUNT_MIN, Photo.LIKES_COUNT_MAX),
     comments: getCommentator(getRandomNumber(Photo.COMMENTS_COUNT_MIN, Photo.COMMENT_COUNT_MAX))

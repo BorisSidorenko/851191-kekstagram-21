@@ -1,8 +1,14 @@
 'use strict';
 
-const IMAGES_COUNT = 25;
-const LIKES_COUNT_MIN = 15;
-const LIKES_COUNT_MAX = 200;
+const Photo = {
+  LIKES_COUNT_MIN: 15,
+  LIKES_COUNT_MAX: 200,
+  COMMENTS_COUNT_MIN: 1,
+  COMMENT_COUNT_MAX: 6,
+  URL_TEMPLATE: 'photos/.jpg',
+  IMG_INDEX_MIN: 1,
+  IMG_INDEX_MAX: 25,
+};
 
 const Commentator = {
   NAMES: [
@@ -36,24 +42,38 @@ const getRandomArrValue = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-const getRandomAvatar = () => {
-  const position = Commentator.AVATAR_PATH_TEMPLATE.indexOf('.');
+const getImgPath = (template, min, max) => {
+  const position = template.indexOf('.');
 
-  const avatarPath = Commentator.AVATAR_PATH_TEMPLATE.substring(0, position)
-    + getRandomNumber(Commentator.AVATAR_NUMBER_MIN, Commentator.AVATAR_NUMBER_MAX)
-    + Commentator.AVATAR_PATH_TEMPLATE.substring(position);
+  const path = template.substring(0, position) + getRandomNumber(min, max) + template.substring(position);
 
-  return avatarPath;
+  return path;
 };
 
-const getCommentator = () => {
-  const objCommentator = {
-    avatar: getRandomAvatar(),
-    message: getRandomArrValue(Commentator.MESSAGES),
-    name: getRandomArrValue(Commentator.NAMES)
+const getCommentator = (count) => {
+  const commentatorsArr = [];
+
+  for (let i = 0; i < count; i++) {
+    const objCommentator = {
+      avatar: getImgPath(Commentator.AVATAR_PATH_TEMPLATE, Commentator.AVATAR_NUMBER_MIN, Commentator.AVATAR_NUMBER_MAX),
+      message: getRandomArrValue(Commentator.MESSAGES),
+      name: getRandomArrValue(Commentator.NAMES)
+    };
+
+    commentatorsArr.push(objCommentator);
+  }
+
+  return commentatorsArr;
+};
+
+const getPhoto = () => {
+  const photo = {
+    url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_INDEX_MIN, Photo.IMG_INDEX_MAX),
+    description: '',
+    likes: getRandomNumber(Photo.LIKES_COUNT_MIN, Photo.LIKES_COUNT_MAX),
+    comments: getCommentator(getRandomNumber(Photo.COMMENTS_COUNT_MIN, Photo.COMMENT_COUNT_MAX))
   };
 
-  return objCommentator;
+  return photo;
 };
 
-console.log(getCommentator());

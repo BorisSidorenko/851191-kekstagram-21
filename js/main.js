@@ -50,9 +50,9 @@ const getPhotoPath = (number) => `photos/${number}.jpg`;
 const getAvatarPath = (number) => `img/avatar-${number}.svg`;
 
 const getCommentator = () => ({
-    avatar: getAvatarPath(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN),
-    message: Commentator.MESSAGES[getRandomArrValue(Commentator.MESSAGES.length)],
-    name: Commentator.NAMES[getRandomArrValue(Commentator.NAMES.length)]
+  avatar: getAvatarPath(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN),
+  message: Commentator.MESSAGES[getRandomArrValue(Commentator.MESSAGES.length)],
+  name: Commentator.NAMES[getRandomArrValue(Commentator.NAMES.length)]
 });
 
 const getCommentators = (count) => new Array(count).fill(undefined).map(getCommentator);

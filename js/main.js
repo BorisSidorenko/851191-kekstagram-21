@@ -36,8 +36,7 @@ const Commentator = {
   ],
   AVATAR_PATH_TEMPLATE: 'img/avatar-.svg',
   AVATAR_NUMBER_MIN: 1,
-  AVATAR_NUMBER_MAX: 6,
-  AVATAR_NAMES: [1, 2, 3, 4, 5, 6]
+  AVATAR_NUMBER_MAX: 6
 };
 
 const pictureTemplate = document.querySelector('#picture').content;
@@ -59,21 +58,17 @@ const getImgPath = (template, namesArr, isUnique = false) => {
   return path;
 };
 
+const getPhotoPath = (number) => `photos/${number}.jpg`;
+
+const getAvatarPath = (number) => `img/avatar-${number}.svg`;
+
 const getCommentator = () => ({
-    avatar: getImgPath(Commentator.AVATAR_PATH_TEMPLATE, Commentator.AVATAR_NAMES),
+    avatar: getAvatarPath(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN),
     message: Commentator.MESSAGES[getRandomArrValue(Commentator.MESSAGES.length)],
     name: Commentator.NAMES[getRandomArrValue(Commentator.NAMES.length)]
 });
 
-const getCommentators = (count) => {
-  const commentatorsArr = [];
-
-  for (let i = 0; i < count; i++) {
-    commentatorsArr.push(getCommentator());
-  }
-
-  return commentatorsArr;
-};
+const getCommentators = (count) => new Array(count).fill(undefined).map(getCommentator);
 
 const getPhoto = () => ({
   url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_NAMES, true),
@@ -82,22 +77,14 @@ const getPhoto = () => ({
   comments: getCommentators(getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
 });
 
-const getPhotos = (count) => {
-  const photos = [];
+const getPhotos = (count) => new Array(count).fill(undefined).map(getPhoto);
 
-  for (let i = 0; i < count; i++) {
-    photos.push(getPhoto());
-  }
-
-  return photos;
-};
+const addPhotoToFragment = (fragment) => (photo) => fragment.appendChild(renderPicture(photo));
 
 const createPictureFragment = () => {
   const pictureFragment = document.createDocumentFragment();
 
-  getPhotos(Photo.IMG_COUNT_MAX).forEach((photo) => {
-    pictureFragment.appendChild(renderPicture(photo));
-  });
+  getPhotos(Photo.IMG_COUNT_MAX).forEach(addPhotoToFragment(pictureFragment));
 
   return pictureFragment;
 };

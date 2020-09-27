@@ -3,8 +3,8 @@
 const Photo = {
   LIKES_COUNT_MIN: 15,
   LIKES_COUNT_MAX: 200,
-  COMMENTS_COUNT_MIN: 1,
-  COMMENT_COUNT_MAX: 6,
+  COMMENTS_COUNT_MIN: 0,
+  COMMENTS_COUNT_MAX: 6,
   URL_TEMPLATE: 'photos/.jpg',
   IMG_NAMES: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
   IMG_COUNT_MAX: 25,
@@ -43,13 +43,13 @@ const Commentator = {
 const pictureTemplate = document.querySelector('#picture').content;
 const picturesContainer = document.querySelector('.pictures');
 
-const getRandomArrValue = (arr) => arr[Math.floor(Math.random() * arr.length)];
+const getRandomArrValue = (arrLength) => Math.floor(Math.random() * arrLength);
 
-const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const getRandomNumberMaxToMin = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
 const getImgPath = (template, namesArr, isUnique = false) => {
   const position = template.indexOf('.');
-  const name = getRandomArrValue(namesArr);
+  const name = namesArr[getRandomArrValue(namesArr.length)];
   const path = template.substring(0, position) + name + template.substring(position);
 
   if (isUnique) {
@@ -59,32 +59,28 @@ const getImgPath = (template, namesArr, isUnique = false) => {
   return path;
 };
 
-const getCommentator = (count) => {
+const getCommentator = () => ({
+    avatar: getImgPath(Commentator.AVATAR_PATH_TEMPLATE, Commentator.AVATAR_NAMES),
+    message: Commentator.MESSAGES[getRandomArrValue(Commentator.MESSAGES.length)],
+    name: Commentator.NAMES[getRandomArrValue(Commentator.NAMES.length)]
+});
+
+const getCommentators = (count) => {
   const commentatorsArr = [];
 
   for (let i = 0; i < count; i++) {
-    const objCommentator = {
-      avatar: getImgPath(Commentator.AVATAR_PATH_TEMPLATE, Commentator.AVATAR_NAMES),
-      message: getRandomArrValue(Commentator.MESSAGES),
-      name: getRandomArrValue(Commentator.NAMES)
-    };
-
-    commentatorsArr.push(objCommentator);
+    commentatorsArr.push(getCommentator());
   }
 
   return commentatorsArr;
 };
 
-const getPhoto = () => {
-  const photo = {
-    url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_NAMES, true),
-    description: '',
-    likes: getRandomNumber(Photo.LIKES_COUNT_MIN, Photo.LIKES_COUNT_MAX),
-    comments: getCommentator(getRandomNumber(Photo.COMMENTS_COUNT_MIN, Photo.COMMENT_COUNT_MAX))
-  };
-
-  return photo;
-};
+const getPhoto = () => ({
+  url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_NAMES, true),
+  description: '',
+  likes: getRandomNumberMaxToMin(Photo.LIKES_COUNT_MAX, Photo.LIKES_COUNT_MIN),
+  comments: getCommentators(getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
+});
 
 const getPhotos = (count) => {
   const photos = [];
@@ -106,8 +102,6 @@ const createPictureFragment = () => {
   return pictureFragment;
 };
 
-const addPicturesToDOM = (pictureFragment) => picturesContainer.appendChild(pictureFragment);
-
 const renderPicture = (photo) => {
   const pictureElement = pictureTemplate.cloneNode(true);
 
@@ -118,4 +112,4 @@ const renderPicture = (photo) => {
   return pictureElement;
 };
 
-addPicturesToDOM(createPictureFragment());
+picturesContainer.appendChild(createPictureFragment());

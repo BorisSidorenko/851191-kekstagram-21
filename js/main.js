@@ -6,7 +6,6 @@ const Photo = {
   COMMENTS_COUNT_MIN: 0,
   COMMENTS_COUNT_MAX: 6,
   URL_TEMPLATE: 'photos/.jpg',
-  IMG_NAMES: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
   IMG_COUNT_MAX: 25,
   IMG_COUNT_MIN: 1
 };
@@ -46,18 +45,6 @@ const getRandomArrValue = (arrLength) => Math.floor(Math.random() * arrLength);
 
 const getRandomNumberMaxToMin = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
-const getImgPath = (template, namesArr, isUnique = false) => {
-  const position = template.indexOf('.');
-  const name = namesArr[getRandomArrValue(namesArr.length)];
-  const path = template.substring(0, position) + name + template.substring(position);
-
-  if (isUnique) {
-    namesArr.splice(namesArr.indexOf(name), 1);
-  }
-
-  return path;
-};
-
 const getPhotoPath = (number) => `photos/${number}.jpg`;
 
 const getAvatarPath = (number) => `img/avatar-${number}.svg`;
@@ -70,14 +57,14 @@ const getCommentator = () => ({
 
 const getCommentators = (count) => new Array(count).fill(undefined).map(getCommentator);
 
-const getPhoto = () => ({
-  url: getImgPath(Photo.URL_TEMPLATE, Photo.IMG_NAMES, true),
+const getPhoto = (index) => ({
+  url: getPhotoPath(index),
   description: '',
   likes: getRandomNumberMaxToMin(Photo.LIKES_COUNT_MAX, Photo.LIKES_COUNT_MIN),
   comments: getCommentators(getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
 });
 
-const getPhotos = (count) => new Array(count).fill(undefined).map(getPhoto);
+const getPhotos = (count) => new Array(count).fill(undefined).map((element, index) => getPhoto(++index));
 
 const addPhotoToFragment = (fragment) => (photo) => fragment.appendChild(renderPicture(photo));
 

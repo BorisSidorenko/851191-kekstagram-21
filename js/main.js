@@ -43,8 +43,6 @@ const pictureTemplate = document.querySelector('#picture').content;
 const picturesContainer = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 
-const getRandomArrValue = (arrLength) => Math.floor(Math.random() * arrLength);
-
 const getRandomNumberMaxToMin = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
 const getPhotoPath = (number) => `photos/${number}.jpg`;
@@ -52,9 +50,9 @@ const getPhotoPath = (number) => `photos/${number}.jpg`;
 const getAvatarPath = (number) => `img/avatar-${number}.svg`;
 
 const getCommentator = () => ({
-  avatar: getAvatarPath(getRandomNumberMaxToMin(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN)),
-  message: Commentator.MESSAGES[getRandomArrValue(Commentator.MESSAGES.length)],
-  name: Commentator.NAMES[getRandomArrValue(Commentator.NAMES.length)]
+  avatar: getAvatarPath(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN),
+  message: Commentator.MESSAGES[getRandomNumberMaxToMin(Commentator.MESSAGES.length - 1)],
+  name: Commentator.NAMES[getRandomNumberMaxToMin(Commentator.NAMES.length - 1)]
 });
 
 const getCommentators = (count) => new Array(count).fill(undefined).map(getCommentator);

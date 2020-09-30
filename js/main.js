@@ -50,7 +50,7 @@ const getPhotoPath = (number) => `photos/${number}.jpg`;
 const getAvatarPath = (number) => `img/avatar-${number}.svg`;
 
 const getCommentator = () => ({
-  avatar: getAvatarPath(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN),
+  avatar: getAvatarPath(getRandomNumberMaxToMin(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN)),
   message: Commentator.MESSAGES[getRandomNumberMaxToMin(Commentator.MESSAGES.length - 1)],
   name: Commentator.NAMES[getRandomNumberMaxToMin(Commentator.NAMES.length - 1)]
 });
@@ -58,7 +58,7 @@ const getCommentator = () => ({
 const getCommentators = (count) => new Array(count).fill(undefined).map(getCommentator);
 
 const getPhoto = (index) => ({
-  url: getPhotoPath(++index),
+  url: getPhotoPath(index + 1),
   description: '',
   likes: getRandomNumberMaxToMin(Photo.LIKES_COUNT_MAX, Photo.LIKES_COUNT_MIN),
   comments: getCommentators(getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
@@ -76,12 +76,12 @@ const createPictureFragment = () => {
   return pictureFragment;
 };
 
-const renderPicture = (photo) => {
+const renderPicture = ({url, likes, comments}) => {
   const pictureElement = pictureTemplate.cloneNode(true);
 
-  pictureElement.querySelector('.picture__img').src = photo.url;
-  pictureElement.querySelector('.picture__likes').textContent = photo.likes;
-  pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
+  pictureElement.querySelector('.picture__img').src = url;
+  pictureElement.querySelector('.picture__likes').textContent = likes;
+  pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
   return pictureElement;
 };
@@ -100,11 +100,11 @@ const renderComments = (arrComments) => {
   return commentsFragment;
 };
 
-const addCommentToFragment = (fragment, commentator) => {
+const addCommentToFragment = (fragment, {avatar, name, message}) => {
   const commentElement = bigPicture.querySelector('.social__comment').cloneNode(true);
-  commentElement.querySelector('img').src = commentator.avatar;
-  commentElement.querySelector('img').alt = commentator.name;
-  commentElement.querySelector('.social__text').textContent = commentator.message;
+  commentElement.querySelector('img').src = avatar;
+  commentElement.querySelector('img').alt = name;
+  commentElement.querySelector('.social__text').textContent = message;
   fragment.appendChild(commentElement);
 };
 
@@ -112,12 +112,12 @@ const removeDefaultComments = () => {
   Array.from(bigPicture.querySelectorAll('.social__comment')).forEach((element) => element.remove());
 };
 
-const rendenderPhotoAndComments = (photo) => {
-  bigPicture.querySelector('.big-picture__img').querySelector('img').src = photo.url;
-  bigPicture.querySelector('.likes-count').textContent = photo.likes;
-  bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
-  bigPicture.querySelector('.social__comments').appendChild(renderComments(photo.comments));
-  bigPicture.querySelector('.social__caption').textContent = photo.description;
+const rendenderPhotoAndComments = ({url, description, likes, comments}) => {
+  bigPicture.querySelector('.big-picture__img').querySelector('img').src = url;
+  bigPicture.querySelector('.likes-count').textContent = likes;
+  bigPicture.querySelector('.comments-count').textContent = comments.length;
+  bigPicture.querySelector('.social__comments').appendChild(renderComments(comments));
+  bigPicture.querySelector('.social__caption').textContent = description;
 };
 
 const showBigPicture = (photo) => {

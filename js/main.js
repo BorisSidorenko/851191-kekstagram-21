@@ -42,6 +42,7 @@ const body = document.body;
 const pictureTemplate = document.querySelector('#picture').content;
 const picturesContainer = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
+const commentElementTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
 
 const getRandomNumberMaxToMin = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -95,13 +96,11 @@ const renderComments = (arrComments) => {
 
   arrComments.forEach((commentator) => addCommentToFragment(commentsFragment, commentator));
 
-  removeDefaultComments();
-
   return commentsFragment;
 };
 
 const addCommentToFragment = (fragment, {avatar, name, message}) => {
-  const commentElement = bigPicture.querySelector('.social__comment').cloneNode(true);
+  const commentElement = commentElementTemplate.cloneNode(true);
   commentElement.querySelector('img').src = avatar;
   commentElement.querySelector('img').alt = name;
   commentElement.querySelector('.social__text').textContent = message;
@@ -121,6 +120,7 @@ const rendenderPhotoAndComments = ({url, description, likes, comments}) => {
 };
 
 const showBigPicture = (photo) => {
+  removeDefaultComments();
   rendenderPhotoAndComments(photo);
 
   hideCommentsCounter();

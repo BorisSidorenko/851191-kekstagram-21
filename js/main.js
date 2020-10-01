@@ -1,5 +1,12 @@
 'use strict';
 
+const Scale = {
+  IMG_SCALE_DEFAULT: 100,
+  IMG_SCALE_MAX: 100,
+  IMG_SCALE_MIN: 25,
+  IMG_SCALE_STEP: 25
+};
+
 const Photo = {
   LIKES_COUNT_MIN: 15,
   LIKES_COUNT_MAX: 200,
@@ -39,13 +46,22 @@ const Commentator = {
 };
 
 const body = document.body;
+
 const pictureTemplate = document.querySelector('#picture').content;
 const picturesContainer = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const commentElementTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
+
 const uploadPanel = document.querySelector('.img-upload__overlay');
 const uploadFileForm = document.querySelector('#upload-file');
 const uploadCancelButton = document.querySelector('#upload-cancel');
+
+const scaleControlSmall = document.querySelector('.scale__control--smaller');
+const scaleControlBig = document.querySelector('.scale__control--bigger');
+const currentScale = document.querySelector('.scale__control--value');
+currentScale.value = `${Scale.IMG_SCALE_DEFAULT}%`;
+
+const imgPreview = document.querySelector('.img-upload__preview');
 
 const getRandomNumberMaxToMin = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -136,7 +152,7 @@ const showBigPicture = (photo) => {
 
 picturesContainer.appendChild(createPictureFragment());
 
-//showBigPicture(getPhoto(0));
+// showBigPicture(getPhoto(0));
 
 const onEditPanelEscPress = (evt) => {
   if (evt.key === 'Escape') {
@@ -166,3 +182,29 @@ uploadFileForm.addEventListener('change', () => {
 uploadCancelButton.addEventListener('click', () => {
   closeEditPanel();
 });
+
+const subtractScaleInput = () => {
+  const scale = parseInt(currentScale.value.replace('%', ''), 10);
+  return scale - Scale.IMG_SCALE_STEP < Scale.IMG_SCALE_MIN ? Scale.IMG_SCALE_MIN : scale - Scale.IMG_SCALE_STEP;
+};
+
+const addScaleInput = () => {
+  const scale = parseInt(currentScale.value.replace('%', ''), 10);
+  return scale + Scale.IMG_SCALE_STEP > Scale.IMG_SCALE_MAX ? Scale.IMG_SCALE_MAX : scale + Scale.IMG_SCALE_STEP;
+};
+
+const onScaleDown = () => {
+  const scaleInputValue = subtractScaleInput();
+  currentScale.value = `${scaleInputValue}%`;
+  imgPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
+};
+
+const onScaleUp = () => {
+  const scaleInputValue = addScaleInput();
+  currentScale.value = `${scaleInputValue}%`;
+  imgPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
+};
+
+scaleControlSmall.addEventListener('click', onScaleDown);
+
+scaleControlBig.addEventListener('click', onScaleUp);

@@ -43,6 +43,9 @@ const pictureTemplate = document.querySelector('#picture').content;
 const picturesContainer = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const commentElementTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
+const uploadPanel = document.querySelector('.img-upload__overlay');
+const uploadFileForm = document.querySelector('#upload-file');
+const uploadCancelButton = document.querySelector('#upload-cancel');
 
 const getRandomNumberMaxToMin = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -133,6 +136,33 @@ const showBigPicture = (photo) => {
 
 picturesContainer.appendChild(createPictureFragment());
 
-showBigPicture(getPhoto(0));
+//showBigPicture(getPhoto(0));
 
+const onEditPanelEscPress = (evt) => {
+  if (evt.key === 'Escape') {
+    closeEditPanel();
+  }
+};
 
+const openEditPanel = () => {
+  body.classList.add('modal-open');
+  uploadPanel.classList.remove('hidden');
+
+  document.addEventListener('keydown', onEditPanelEscPress);
+};
+
+const closeEditPanel = () => {
+  body.classList.remove('modal-open');
+  uploadPanel.classList.add('hidden');
+  uploadFileForm.value = '';
+
+  document.removeEventListener('keydown', onEditPanelEscPress);
+};
+
+uploadFileForm.addEventListener('change', () => {
+  openEditPanel();
+});
+
+uploadCancelButton.addEventListener('click', () => {
+  closeEditPanel();
+});

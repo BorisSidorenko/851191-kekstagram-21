@@ -294,7 +294,7 @@ const validateHashtagInput = () => {
       hashtagInput.setCustomValidity('Хэштег не должен содержать спецсимволы - #, @, $ и т. п.');
     } else if (index >= Hashtag.MAX_COUNT) {
       hashtagInput.setCustomValidity(`Можно ввести только ${Hashtag.MAX_COUNT} хэштегов`);
-    } else if (hashtags.length > 1 && hashtags.some((element, innerIndex) => element[innerIndex] !== hashtag[index] && element.toLowerCase() === hashtag.toLowerCase())) {
+    } else if (hashtags.some((element, innerIndex) => element.toLowerCase() === hashtag.toLowerCase() && element[innerIndex] !== hashtag[index])) {
       hashtagInput.setCustomValidity(`Вы дважды ввели ${hashtag} хэштег`);
     } else {
       hashtagInput.setCustomValidity('');

@@ -1,12 +1,5 @@
 'use strict';
 
-const Scale = {
-  IMG_SCALE_DEFAULT: 100,
-  IMG_SCALE_MAX: 100,
-  IMG_SCALE_MIN: 25,
-  IMG_SCALE_STEP: 25
-};
-
 const Photo = {
   LIKES_COUNT_MIN: 15,
   LIKES_COUNT_MAX: 200,
@@ -45,6 +38,22 @@ const Commentator = {
   AVATAR_NUMBER_MAX: 6
 };
 
+const Scale = {
+  IMG_SCALE_DEFAULT: 100,
+  IMG_SCALE_MAX: 100,
+  IMG_SCALE_MIN: 25,
+  IMG_SCALE_STEP: 25
+};
+
+const Effect = {
+  SATURATION_MAX: 100,
+  SATURATION_STEP: 1,
+  SATURATION_STEP_SPECIAL: 33,
+  LEVEL_PIN_POSITION: 100,
+  LEVEL_DEPTH_WIDTH: 100,
+  LEVEL_VALUE: 100
+};
+
 const body = document.body;
 
 const pictureTemplate = document.querySelector('#picture').content;
@@ -53,7 +62,8 @@ const bigPicture = document.querySelector('.big-picture');
 const commentElementTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
 
 const uploadPanel = document.querySelector('.img-upload__overlay');
-const uploadFileForm = document.querySelector('#upload-file');
+const uploadForm = document.querySelector('.img-upload__form');
+const uploadFileInput = document.querySelector('#upload-file');
 const uploadCancelButton = document.querySelector('#upload-cancel');
 
 const scaleControlSmall = document.querySelector('.scale__control--smaller');
@@ -61,7 +71,12 @@ const scaleControlBig = document.querySelector('.scale__control--bigger');
 const currentScale = document.querySelector('.scale__control--value');
 currentScale.value = `${Scale.IMG_SCALE_DEFAULT}%`;
 
-const imgPreview = document.querySelector('.img-upload__preview');
+const imgUploadPreview = document.querySelector('.img-upload__preview');
+const imgUpload = imgUploadPreview.querySelector('img');
+const effectLevel = document.querySelector('.effect-level');
+const effectLevelPin = effectLevel.querySelector('.effect-level__pin');
+const effectLevelDepth = effectLevel.querySelector('.effect-level__depth');
+const effectLevelValue = effectLevel.querySelector('.effect-level__value');
 
 const getRandomNumberMaxToMin = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -163,19 +178,19 @@ const onEditPanelEscPress = (evt) => {
 const openEditPanel = () => {
   body.classList.add('modal-open');
   uploadPanel.classList.remove('hidden');
-
+  effectLevel.classList.add('hidden');
   document.addEventListener('keydown', onEditPanelEscPress);
 };
 
 const closeEditPanel = () => {
   body.classList.remove('modal-open');
   uploadPanel.classList.add('hidden');
-  uploadFileForm.value = '';
+  uploadFileInput.value = '';
 
   document.removeEventListener('keydown', onEditPanelEscPress);
 };
 
-uploadFileForm.addEventListener('change', () => {
+uploadFileInput.addEventListener('change', () => {
   openEditPanel();
 });
 
@@ -196,15 +211,58 @@ const addScaleInput = () => {
 const onScaleDown = () => {
   const scaleInputValue = subtractScaleInput();
   currentScale.value = `${scaleInputValue}%`;
-  imgPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
+  imgUploadPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
 };
 
 const onScaleUp = () => {
   const scaleInputValue = addScaleInput();
   currentScale.value = `${scaleInputValue}%`;
-  imgPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
+  imgUploadPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
 };
 
 scaleControlSmall.addEventListener('click', onScaleDown);
 
 scaleControlBig.addEventListener('click', onScaleUp);
+
+const renderDefaultSlider = () => {
+  effectLevelPin.style.left = `${Effect.LEVEL_PIN_POSITION}%`;
+  effectLevelDepth.style.width = `${Effect.LEVEL_DEPTH_WIDTH}%`;
+  effectLevelValue.value = `${Effect.LEVEL_VALUE}`;
+};
+
+const onEffectChange = (evt) => {
+  if (evt.target && evt.target.matches('input[type="radio"]')) {
+    if (imgUpload.classList.length !== 0) {
+      imgUpload.classList.remove(Array.from(imgUpload.classList));
+    }
+
+    imgUpload.classList.add(`effects__preview--${evt.target.value}`);
+    renderDefaultSlider();
+
+    if (imgUpload.classList.contains('effects__preview--none')) {
+      effectLevel.classList.add('hidden');
+    } else {
+      effectLevel.classList.remove('hidden');
+    }
+  }
+};
+
+uploadForm.addEventListener('change', onEffectChange);
+
+const onSaturationChange = () => {
+  if (imgUpload.classList.contains('effects__preview--chrome')) {
+    imgUpload.style = `filter: grayscale(${effectLevelValue.value / Effect.SATURATION_MAX})`;
+  } else if (imgUpload.classList.contains('effects__preview--sepia')) {
+    imgUpload.style = `filter: sepia(${effectLevelValue.value / Effect.SATURATION_MAX})`;
+  } else if (imgUpload.classList.contains('effects__preview--marvin')) {
+    imgUpload.style = `filter: invert(${effectLevelValue.value}%)`;
+  } else if (imgUpload.classList.contains('effects__preview--phobos')) {
+    imgUpload.style = `filter: blur(${Math.round(effectLevelValue.value / Effect.SATURATION_STEP_SPECIAL)}px)`;
+  } else if (imgUpload.classList.contains('effects__preview--heat')) {
+    imgUpload.style = `filter: brightness(${Math.round(effectLevelValue.value / Effect.SATURATION_STEP_SPECIAL)})`;
+  } else {
+    imgUpload.style = '';
+  }
+};
+
+effectLevelPin.addEventListener('mouseup', onSaturationChange);

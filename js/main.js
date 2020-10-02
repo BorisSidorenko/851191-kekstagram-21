@@ -54,6 +54,13 @@ const Effect = {
   LEVEL_VALUE: 100
 };
 
+const Hashtag = {
+  MIN_LENGTH: 2,
+  MAX_LENGTH: 20,
+  MAX_COUNT: 5,
+  REGEX: /^#[a-zA-Z0-9]*$/
+};
+
 const body = document.body;
 
 const pictureTemplate = document.querySelector('#picture').content;
@@ -77,6 +84,8 @@ const effectLevel = document.querySelector('.effect-level');
 const effectLevelPin = effectLevel.querySelector('.effect-level__pin');
 const effectLevelDepth = effectLevel.querySelector('.effect-level__depth');
 const effectLevelValue = effectLevel.querySelector('.effect-level__value');
+
+const hashtagInput = uploadForm.querySelector('.text__hashtags');
 
 const getRandomNumberMaxToMin = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -170,7 +179,7 @@ picturesContainer.appendChild(createPictureFragment());
 // showBigPicture(getPhoto(0));
 
 const onEditPanelEscPress = (evt) => {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && document.activeElement !== hashtagInput) {
     closeEditPanel();
   }
 };
@@ -266,3 +275,33 @@ const onSaturationChange = () => {
 };
 
 effectLevelPin.addEventListener('mouseup', onSaturationChange);
+
+const onHashtagInput = () => {
+  validateHashtagInput();
+};
+
+const validateHashtagInput = () => {
+  const hashtags = hashtagInput.value.split(' ');
+
+  hashtags.forEach((hashtag, index) => {
+    if (hashtag !== '' && hashtag[0] !== '#') {
+      hashtagInput.setCustomValidity('Хэштег должен начинаться с #');
+    } else if (hashtag.length < Hashtag.MIN_LENGTH) {
+      hashtagInput.setCustomValidity(`Ещё минимум ${Hashtag.MIN_LENGTH - hashtag.length} симв.`);
+    } else if (hashtag.length > Hashtag.MAX_LENGTH) {
+      hashtagInput.setCustomValidity(`Удалите лишние ${hashtag.length - Hashtag.MAX_LENGTH} симв.`);
+    } else if (!Hashtag.REGEX.test(hashtag)) {
+      hashtagInput.setCustomValidity('Хэштег не должен содержать спецсимволы - #, @, $ и т. п.');
+    } else if (index >= Hashtag.MAX_COUNT) {
+      hashtagInput.setCustomValidity(`Можно ввести только ${Hashtag.MAX_COUNT} хэштегов`);
+    } else if (hashtags.length > 1 && hashtags.some((element, innerIndex) => element[innerIndex] !== hashtag[index] && element.toLowerCase() === hashtag.toLowerCase())) {
+      hashtagInput.setCustomValidity(`Вы дважды ввели ${hashtag} хэштег`);
+    } else {
+      hashtagInput.setCustomValidity('');
+    }
+  });
+
+  hashtagInput.reportValidity();
+};
+
+hashtagInput.addEventListener('input', onHashtagInput);

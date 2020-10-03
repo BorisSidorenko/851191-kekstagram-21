@@ -269,13 +269,14 @@ const setBlur = () => `filter: blur(${Math.round(effectLevelValue.value / Effect
 const setBrightness = () => `filter: brightness(${Math.round(effectLevelValue.value / Effect.SATURATION_STEP_SPECIAL)})`;
 const setOriginal = () => '';
 
-const saturationFilterMap = new Map();
-saturationFilterMap.set("effects__preview--chrome", setGrayscale());
-saturationFilterMap.set("effects__preview--sepia", setSepia());
-saturationFilterMap.set("effects__preview--marvin", setInvert());
-saturationFilterMap.set("effects__preview--phobos", setBlur());
-saturationFilterMap.set("effects__preview--heat", setBrightness());
-saturationFilterMap.set("effects__preview--none", setOriginal());
+const saturationFilterMap = new Map([
+  ["effects__preview--chrome", setGrayscale()],
+  ["effects__preview--sepia", setSepia()],
+  ["effects__preview--marvin", setInvert()],
+  ["effects__preview--phobos", setBlur()],
+  ["effects__preview--heat", setBrightness()],
+  ["effects__preview--none", setOriginal()],
+]);
 
 const onSaturationChange = () => {
   const [saturationKey] = Array.from(imgUpload.classList);

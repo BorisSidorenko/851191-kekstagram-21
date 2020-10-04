@@ -70,8 +70,6 @@ const body = document.body;
 
 const pictureTemplate = document.querySelector('#picture').content;
 const picturesContainer = document.querySelector('.pictures');
-const bigPicture = document.querySelector('.big-picture');
-const commentElementTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
 
 const uploadPanel = document.querySelector('.img-upload__overlay');
 const uploadForm = document.querySelector('.img-upload__form');
@@ -133,49 +131,6 @@ const renderPicture = ({url, likes, comments}) => {
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
 
   return pictureElement;
-};
-
-const hideCommentsCounter = () => document.querySelector('.social__comment-count').classList.add('hidden');
-
-const hideCommentsLoader = () => document.querySelector('.comments-loader').classList.add('hidden');
-
-const renderComments = (arrComments) => {
-  const commentsFragment = document.createDocumentFragment();
-
-  arrComments.forEach((commentator) => addCommentToFragment(commentsFragment, commentator));
-
-  return commentsFragment;
-};
-
-const addCommentToFragment = (fragment, {avatar, name, message}) => {
-  const commentElement = commentElementTemplate.cloneNode(true);
-  commentElement.querySelector('img').src = avatar;
-  commentElement.querySelector('img').alt = name;
-  commentElement.querySelector('.social__text').textContent = message;
-  fragment.appendChild(commentElement);
-};
-
-const removeDefaultComments = () => {
-  Array.from(bigPicture.querySelectorAll('.social__comment')).forEach((element) => element.remove());
-};
-
-const rendenderPhotoAndComments = ({url, description, likes, comments}) => {
-  bigPicture.querySelector('.big-picture__img').querySelector('img').src = url;
-  bigPicture.querySelector('.likes-count').textContent = likes;
-  bigPicture.querySelector('.comments-count').textContent = comments.length;
-  bigPicture.querySelector('.social__comments').appendChild(renderComments(comments));
-  bigPicture.querySelector('.social__caption').textContent = description;
-};
-
-const showBigPicture = (photo) => {
-  removeDefaultComments();
-  rendenderPhotoAndComments(photo);
-
-  hideCommentsCounter();
-  hideCommentsLoader();
-
-  body.classList.toggle('modal-open');
-  bigPicture.classList.toggle('hidden');
 };
 
 picturesContainer.appendChild(createPictureFragment());
@@ -270,17 +225,17 @@ const setBrightness = () => `filter: brightness(${Math.round(effectLevelValue.va
 const setOriginal = () => '';
 
 const saturationFilterMap = new Map([
-  ["effects__preview--chrome", setGrayscale()],
-  ["effects__preview--sepia", setSepia()],
-  ["effects__preview--marvin", setInvert()],
-  ["effects__preview--phobos", setBlur()],
-  ["effects__preview--heat", setBrightness()],
-  ["effects__preview--none", setOriginal()],
+  ["effects__preview--chrome", setGrayscale],
+  ["effects__preview--sepia", setSepia],
+  ["effects__preview--marvin", setInvert],
+  ["effects__preview--phobos", setBlur],
+  ["effects__preview--heat", setBrightness],
+  ["effects__preview--none", setOriginal],
 ]);
 
 const onSaturationChange = () => {
   const [saturationKey] = Array.from(imgUpload.classList);
-  imgUpload.style = saturationFilterMap.get(saturationKey);
+  imgUpload.style = saturationFilterMap.get(saturationKey)();
 };
 
 effectLevelPin.addEventListener('mouseup', onSaturationChange);
@@ -295,6 +250,7 @@ const getHashtagDuplicateMessage = (hashtag) => `Вы ввели ${hashtag} хэ
 
 const setHashtagValidationMessage = (hashtag, index, hashtags) => {
   const [firstLetter] = hashtag;
+
   if (firstLetter !== '' && firstLetter !== '#') {
     hashtagInput.setCustomValidity(HashtagValidationMessage.FIRST_LETTER_INVALID);
   } else if (hashtag.length < Hashtag.MIN_LENGTH) {
@@ -317,7 +273,7 @@ const setHashtagValidationMessage = (hashtag, index, hashtags) => {
 const onHashtagInput = () => {
   const hashtags = hashtagInput.value.split(' ');
 
-  hashtags.forEach((hashtag, index, arr) => setHashtagValidationMessage(hashtag, index, arr));
+  hashtags.forEach(setHashtagValidationMessage);
 };
 
 hashtagInput.addEventListener('input', onHashtagInput);

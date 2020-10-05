@@ -5,7 +5,8 @@
     LIKES_COUNT_MIN: 15,
     LIKES_COUNT_MAX: 200,
     COMMENTS_COUNT_MAX: 10,
-    URL_TEMPLATE: 'photos/.jpg'
+    URL_TEMPLATE: 'photos/.jpg',
+    IMG_COUNT_MAX: 25
   };
 
   const Commentator = {
@@ -36,6 +37,8 @@
     AVATAR_NUMBER_MAX: 6
   };
 
+  const pictureTemplate = document.querySelector('#picture').content;
+
   const getPhotoPath = (number) => `photos/${number}.jpg`;
 
   const getAvatarPath = (number) => `img/avatar-${number}.svg`;
@@ -50,11 +53,32 @@
     url: getPhotoPath(index + 1),
     description: '',
     likes: window.util.getRandomNumberMaxToMin(Photo.LIKES_COUNT_MAX, Photo.LIKES_COUNT_MIN),
-    comments: window.data.getCommentators(window.util.getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
+    comments: getCommentators(window.util.getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
   });
 
+  const getCommentators = (count) => new Array(count).fill(undefined).map(getCommentator);
+
+  const getPhotos = (count) => new Array(count).fill(undefined).map((element, index) => getPhoto(index));
+
+  const addPhotoToFragment = (fragment) => (photo) => fragment.appendChild(renderPicture(photo));
+
+  const renderPicture = ({url, likes, comments}) => {
+    const pictureElement = pictureTemplate.cloneNode(true);
+
+    pictureElement.querySelector('.picture__img').src = url;
+    pictureElement.querySelector('.picture__likes').textContent = likes;
+    pictureElement.querySelector('.picture__comments').textContent = comments.length;
+
+    return pictureElement;
+  };
+
   window.data = {
-    getCommentators: (count) => new Array(count).fill(undefined).map(getCommentator),
-    getPhotos: (count) => new Array(count).fill(undefined).map((element, index) => getPhoto(index))
+    createPictureFragment: () => {
+      const pictureFragment = document.createDocumentFragment();
+
+      getPhotos(Photo.IMG_COUNT_MAX).forEach(addPhotoToFragment(pictureFragment));
+
+      return pictureFragment;
+    }
   };
 })();

@@ -73,7 +73,7 @@
   };
 
   window.data = {
-    createPictureFragment: () => {
+    loadPhotos: () => {
       const pictureFragment = document.createDocumentFragment();
 
       getPhotos(Photo.IMG_COUNT_MAX).forEach(addPhotoToFragment(pictureFragment));

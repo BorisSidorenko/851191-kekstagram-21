@@ -5,7 +5,7 @@
     ESC_CODE: 'Escape'
   };
 
-  window.util = {
+  window.utils = {
     isEscEvent: (evt, action) => {
       if (evt.key === KeyCode.ESC_CODE) {
         action();

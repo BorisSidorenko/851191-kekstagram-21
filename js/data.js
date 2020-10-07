@@ -39,21 +39,21 @@
 
   const pictureTemplate = document.querySelector('#picture').content;
 
-  const getPhotoPath = (number) => `photos/${number}.jpg`;
+  const getPhotoPath = (name) => `photos/${name}.jpg`;
 
-  const getAvatarPath = (number) => `img/avatar-${number}.svg`;
+  const getAvatarPath = (name) => `img/avatar-${name}.svg`;
 
   const getCommentator = () => ({
-    avatar: getAvatarPath(window.util.getRandomNumberMaxToMin(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN)),
-    message: Commentator.MESSAGES[window.util.getRandomNumberMaxToMin(Commentator.MESSAGES.length - 1)],
-    name: Commentator.NAMES[window.util.getRandomNumberMaxToMin(Commentator.NAMES.length - 1)]
+    avatar: getAvatarPath(window.utils.getRandomNumberMaxToMin(Commentator.AVATAR_NUMBER_MAX, Commentator.AVATAR_NUMBER_MIN)),
+    message: Commentator.MESSAGES[window.utils.getRandomNumberMaxToMin(Commentator.MESSAGES.length - 1)],
+    name: Commentator.NAMES[window.utils.getRandomNumberMaxToMin(Commentator.NAMES.length - 1)]
   });
 
   const getPhoto = (index) => ({
     url: getPhotoPath(index + 1),
     description: '',
-    likes: window.util.getRandomNumberMaxToMin(Photo.LIKES_COUNT_MAX, Photo.LIKES_COUNT_MIN),
-    comments: getCommentators(window.util.getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
+    likes: window.utils.getRandomNumberMaxToMin(Photo.LIKES_COUNT_MAX, Photo.LIKES_COUNT_MIN),
+    comments: getCommentators(window.utils.getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
   });
 
   const getCommentators = (count) => new Array(count).fill(undefined).map(getCommentator);

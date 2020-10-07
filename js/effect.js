@@ -42,25 +42,26 @@
     effectLevelValue.value = `${Effect.LEVEL_VALUE}`;
   };
 
-  window.effect = {
-    test: 'test',
-    onEffectChange: (evt) => {
-      if (evt.target && evt.target.matches('input[type="radio"]')) {
-        if (imgUpload.classList.length !== 0) {
-          imgUpload.classList.remove(Array.from(imgUpload.classList));
-        }
-
-        imgUpload.classList.add(`effects__preview--${evt.target.value}`);
-        imgUpload.style = '';
-        renderDefaultSlider();
-
-        if (imgUpload.classList.contains('effects__preview--none')) {
-          effectLevel.classList.add('hidden');
-        } else {
-          effectLevel.classList.remove('hidden');
-        }
+  const onEffectChange = (evt) => {
+    if (evt.target && evt.target.matches('input[type="radio"]')) {
+      if (imgUpload.classList.length !== 0) {
+        imgUpload.classList.remove(Array.from(imgUpload.classList));
       }
-    },
+
+      imgUpload.classList.add(`effects__preview--${evt.target.value}`);
+      imgUpload.style = '';
+      renderDefaultSlider();
+
+      if (imgUpload.classList.contains('effects__preview--none')) {
+        effectLevel.classList.add('hidden');
+      } else {
+        effectLevel.classList.remove('hidden');
+      }
+    }
+  };
+
+  window.effect = {
+    onEffectChange,
     getSaturation: (saturationKey) => saturationFilterMap.get(saturationKey)
   };
 })();

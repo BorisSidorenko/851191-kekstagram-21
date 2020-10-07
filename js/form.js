@@ -25,7 +25,7 @@
 
   const onEditPanelEscPress = (evt) => {
     if (document.activeElement !== hashtagInput) {
-      window.util.isEscEvent(evt, closeEditPanel);
+      window.utils.isEscEvent(evt, closeEditPanel);
     }
   };
 

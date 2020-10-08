@@ -18,7 +18,7 @@
   const scaleControlBig = uploadForm.querySelector('.scale__control--bigger');
   const effectLevel = uploadPanel.querySelector('.effect-level');
   const hashtagInput = uploadPanel.querySelector('.text__hashtags');
-  const commentInput= uploadPanel.querySelector('.text__description');
+  const commentInput = uploadPanel.querySelector('.text__description');
   const currentScale = uploadForm.querySelector('.scale__control--value');
   currentScale.value = `${Scale.IMG_SCALE_DEFAULT}%`;
 

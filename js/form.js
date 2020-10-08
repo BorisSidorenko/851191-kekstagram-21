@@ -20,11 +20,12 @@
   const effectLevel = uploadPanel.querySelector('.effect-level');
   const effectLevelPin = effectLevel.querySelector('.effect-level__pin');
   const hashtagInput = uploadPanel.querySelector('.text__hashtags');
+  const commentInput = uploadPanel.querySelector('.text__description');
   const currentScale = uploadForm.querySelector('.scale__control--value');
   currentScale.value = `${Scale.IMG_SCALE_DEFAULT}%`;
 
   const onEditPanelEscPress = (evt) => {
-    if (document.activeElement !== hashtagInput) {
+    if (document.activeElement !== hashtagInput && document.activeElement !== commentInput) {
       window.utils.isEscEvent(evt, closeEditPanel);
     }
   };

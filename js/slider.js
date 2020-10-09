@@ -4,10 +4,12 @@
   const Effect = {
     SATURATION_MAX: 100,
     SATURATION_STEP: 1,
-    SATURATION_STEP_SPECIAL: 34,
+    SATURATION_STEP_SPECIAL: 33,
     LEVEL_PIN_POSITION: 100,
     LEVEL_DEPTH_WIDTH: 100,
-    LEVEL_VALUE: 100
+    LEVEL_VALUE: 100,
+    BRIGHTNESS_MIN: 1,
+    BRIGHTNESS_MAX: 3
   };
 
   const uploadForm = document.querySelector('.img-upload__form');
@@ -28,14 +30,25 @@
     y: 0
   };
 
-  const setGrayscale = () => `filter: grayscale(${sliderlInput.value / Effect.SATURATION_MAX})`;
-  const setSepia = () => `filter: sepia(${sliderlInput.value / Effect.SATURATION_MAX})`;
-  const setInvert = () => `filter: invert(${sliderlInput.value}%)`;
-  const setBlur = () => `filter: blur(${Math.ceil(sliderlInput.value / Effect.SATURATION_STEP_SPECIAL)}px)`;
+  const setGrayscale = (saturationValue) => `filter: grayscale(${saturationValue / Effect.SATURATION_MAX})`;
+  const setSepia = (saturationValue) => `filter: sepia(${saturationValue / Effect.SATURATION_MAX})`;
+  const setInvert = (saturationValue) => `filter: invert(${saturationValue}%)`;
 
-  const setBrightness = () => {
-    const brightnessValue = Math.ceil(sliderlInput.value / Effect.SATURATION_STEP_SPECIAL);
-    return `filter: brightness(${brightnessValue === 0 ? 1 : brightnessValue})`;
+  const setBlur = (saturationValue) => {
+    const blur = saturationValue / Effect.SATURATION_STEP_SPECIAL;
+    return `filter: blur(${blur > Effect.BRIGHTNESS_MAX ? Math.round(blur) : blur}px)`;
+  };
+
+  const setBrightness = (saturationValue) => {
+    let brightnessValue = saturationValue / Effect.SATURATION_STEP_SPECIAL;
+
+    if (brightnessValue < Effect.BRIGHTNESS_MIN) {
+      brightnessValue = Effect.BRIGHTNESS_MIN;
+    } else if (brightnessValue > Effect.BRIGHTNESS_MAX) {
+      brightnessValue = Math.round(Effect.BRIGHTNESS_MAX);
+    }
+
+    return `filter: brightness(${brightnessValue})`;
   };
 
   const setOriginal = () => '';
@@ -63,7 +76,6 @@
     startCoords.y = moveEvt.clientY;
 
     setNewPinPosition(shift);
-    changeSaturation();
   };
 
   const setNewPinPosition = (shift) => {
@@ -84,11 +96,13 @@
     sliderPin.style.left = `${newPositionRounded}%`;
     sliderDepth.style.width = `${Math.round(newPositionRounded)}%`;
     sliderlInput.value = Math.round(newPositionRounded);
+
+    changeSaturation(sliderlInput.value);
   };
 
-  const changeSaturation = () => {
+  const changeSaturation = (saturationValue) => {
     const [saturationKey] = Array.from(imgUpload.classList);
-    imgUpload.style = getSaturation(saturationKey)();
+    imgUpload.style = getSaturation(saturationKey)(saturationValue);
   };
 
   const onMouseUp = (evt) => {

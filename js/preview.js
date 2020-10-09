@@ -46,7 +46,7 @@
     const pictureNumber = evt.target.dataset.number ? evt.target.dataset.number : evt.target.parentElement.dataset.number;
     if (pictureNumber) {
       removeDefaultComments();
-      rendenderPhotoAndComments(window.data.loadPhoto(parseInt(pictureNumber, 10)));
+      rendenderPhotoAndComments(window.data.getPhoto(parseInt(pictureNumber, 10)));
 
       hideCommentsCounter();
       hideCommentsLoader();
@@ -69,7 +69,7 @@
   };
 
   window.preview = {
-    onPictureClick: showBigPicture,
-    onPictureEnterPress: onPreviewEnterPress
+    showBigPicture,
+    onPreviewEnterPress
   };
 })();

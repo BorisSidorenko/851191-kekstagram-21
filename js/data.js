@@ -82,6 +82,6 @@
 
       return pictureFragment;
     },
-    loadPhoto: getPhoto
+    getPhoto
   };
 })();

@@ -6,6 +6,6 @@
 
   picturesContainer.appendChild(window.data.loadPhotos());
 
-  picturesContainer.addEventListener('click', window.preview.onPictureClick);
-  picturesContainer.addEventListener('keydown', window.preview.onPictureEnterPress);
+  picturesContainer.addEventListener('click', window.preview.showBigPicture);
+  picturesContainer.addEventListener('keydown', window.preview.onPreviewEnterPress);
 })();

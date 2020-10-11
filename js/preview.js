@@ -43,10 +43,11 @@
   const onClosePictureButtonClick = hideBigPicture;
 
   const showBigPicture = (evt) => {
-    const pictureNumber = evt.target.dataset.number ? evt.target.dataset.number : evt.target.parentElement.dataset.number;
-    if (pictureNumber) {
+    const picturePath = evt.target.dataset.path ? evt.target.dataset.path : evt.target.parentElement.dataset.path;
+
+    if (picturePath) {
       removeDefaultComments();
-      rendenderPhotoAndComments(window.data.getPhoto(parseInt(pictureNumber, 10)));
+      rendenderPhotoAndComments(window.data.getPhoto(picturePath));
 
       hideCommentsCounter();
       hideCommentsLoader();

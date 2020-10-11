@@ -68,8 +68,10 @@
     fragment.appendChild(commentElement);
   };
 
+  const onPreviewClick = showBigPicture;
+
   window.preview = {
-    showBigPicture,
+    onPreviewClick,
     onPreviewEnterPress
   };
 })();

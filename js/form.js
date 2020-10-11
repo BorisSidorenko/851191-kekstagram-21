@@ -14,17 +14,16 @@
   const uploadCancelButton = uploadForm.querySelector('#upload-cancel');
 
   const imgUploadPreview = uploadPanel.querySelector('.img-upload__preview');
-  const imgUpload = imgUploadPreview.querySelector('img');
   const scaleControlSmall = uploadForm.querySelector('.scale__control--smaller');
   const scaleControlBig = uploadForm.querySelector('.scale__control--bigger');
   const effectLevel = uploadPanel.querySelector('.effect-level');
-  const effectLevelPin = effectLevel.querySelector('.effect-level__pin');
   const hashtagInput = uploadPanel.querySelector('.text__hashtags');
+  const commentInput = uploadPanel.querySelector('.text__description');
   const currentScale = uploadForm.querySelector('.scale__control--value');
   currentScale.value = `${Scale.IMG_SCALE_DEFAULT}%`;
 
   const onEditPanelEscPress = (evt) => {
-    if (document.activeElement !== hashtagInput) {
+    if (document.activeElement !== hashtagInput && document.activeElement !== commentInput) {
       window.utils.isEscEvent(evt, closeEditPanel);
     }
   };
@@ -80,13 +79,6 @@
   scaleControlBig.addEventListener('click', onScaleUp);
 
   uploadForm.addEventListener('change', window.effect.onEffectChange);
-
-  const onSaturationChange = () => {
-    const [saturationKey] = Array.from(imgUpload.classList);
-    imgUpload.style = window.effect.getSaturation(saturationKey);
-  };
-
-  effectLevelPin.addEventListener('mouseup', onSaturationChange);
 
   const onHashtagInput = () => {
     const hashtags = hashtagInput.value.split(' ');

@@ -53,7 +53,8 @@
     url: getPhotoPath(index + 1),
     description: '',
     likes: window.utils.getRandomNumberMaxToMin(Photo.LIKES_COUNT_MAX, Photo.LIKES_COUNT_MIN),
-    comments: getCommentators(window.utils.getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX))
+    comments: getCommentators(window.utils.getRandomNumberMaxToMin(Photo.COMMENTS_COUNT_MAX)),
+    number: index
   });
 
   const getCommentators = (count) => new Array(count).fill(undefined).map(getCommentator);
@@ -62,12 +63,13 @@
 
   const addPhotoToFragment = (fragment) => (photo) => fragment.appendChild(renderPicture(photo));
 
-  const renderPicture = ({url, likes, comments}) => {
+  const renderPicture = ({url, likes, comments, number}) => {
     const pictureElement = pictureTemplate.cloneNode(true);
 
     pictureElement.querySelector('.picture__img').src = url;
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
+    pictureElement.querySelector('.picture').dataset.number = number;
 
     return pictureElement;
   };
@@ -79,6 +81,7 @@
       getPhotos(Photo.IMG_COUNT_MAX).forEach(addPhotoToFragment(pictureFragment));
 
       return pictureFragment;
-    }
+    },
+    getPhoto
   };
 })();

@@ -8,11 +8,15 @@
     OK: 200
   };
 
+  const generateTextError = (code, text) => {
+    `Статус ответа: ${code} ${text}`
+  };
+
   const onLoadComplete = (xhr, onLoad, onError) => () => {
     if (xhr.status === StatusCode.OK) {
       onLoad(xhr.response);
     } else {
-      onError(`Статус ответа: ${xhr.status} ${xhr.statusText}`);
+      onError(generateTextError(xhr.status, xhr.statusText));
     }
   };
 
@@ -20,10 +24,15 @@
 
   const onTimeout = (xhr, onError) => () => onError(`Запрос не успел выполниться за ${xhr.timeout}мс`);
 
-  const load = (onLoad, onError) => {
+  const getNewXhr = () => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.timeout = TIMEOUT_MS;
+    return xhr;
+  };
+
+  const load = (onLoad, onError) => {
+    const xhr = getNewXhr();
 
     xhr.addEventListener('load', onLoadComplete(xhr, onLoad, onError));
 

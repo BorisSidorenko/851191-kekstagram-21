@@ -26,7 +26,14 @@
     }
   };
 
+  const setDefaultEffect = () => {
+    imgUpload.style = '';
+    imgUpload.className = '';
+    imgUpload.classList.add('effects__preview--none');
+  };
+
   window.effect = {
-    onEffectChange
+    onEffectChange,
+    setDefaultEffect
   };
 })();

@@ -2,6 +2,7 @@
 
 (() => {
   const GET_URL = 'https://21.javascript.pages.academy/kekstagram/data';
+  const SEND_URL = 'https://21.javascript.pages.academy/kekstagram';
   const TIMEOUT_MS = 10000;
 
   const StatusCode = {
@@ -44,7 +45,17 @@
     xhr.send();
   };
 
+  const save = (data, onLoad, onError) => {
+    const xhr = getNewXhr();
+
+    xhr.addEventListener('load', onLoadComplete(xhr, onLoad, onError));
+
+    xhr.open('POST', SEND_URL);
+    xhr.send(data);
+  };
+
   window.backend = {
-    load
+    load,
+    save
   };
 })();

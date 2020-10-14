@@ -53,13 +53,9 @@
 
   hashtagInput.addEventListener('input', onHashtagInput);
 
-  const errorHandler = () => {
-
-  };
-
   const onSubmit = (evt) => {
     evt.preventDefault();
-    window.backend.save(new FormData(uploadForm), window.success.successHandler, errorHandler);
+    window.backend.save(new FormData(uploadForm), window.handlers.successHandler, window.handlers.errorHandler);
   };
 
   uploadForm.addEventListener('submit', onSubmit);

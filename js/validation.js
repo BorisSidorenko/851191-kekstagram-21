@@ -29,9 +29,9 @@
     setHashtagValidationMessage: (hashtag, index, hashtags) => {
       const [firstLetter] = hashtag;
 
-      if (firstLetter == null) {
+      if (!firstLetter) {
         hashtagInput.setCustomValidity('');
-      } else if (firstLetter != '#') {
+      } else if (firstLetter !== '#') {
         hashtagInput.setCustomValidity(HashtagValidationMessage.FIRST_LETTER_INVALID);
       } else if (hashtag.length < Hashtag.MIN_LENGTH) {
         hashtagInput.setCustomValidity(getHashtagTooShortMessage(hashtag));

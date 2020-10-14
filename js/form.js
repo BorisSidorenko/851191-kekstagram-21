@@ -8,6 +8,14 @@
     IMG_SCALE_STEP: 25
   };
 
+  const main = document.querySelector('main');
+
+  const successFragment = document.querySelector('#success').content;
+  const successPanelFragment = successFragment.querySelector('.success');
+
+  let successPanel;
+  let successButton;
+
   const uploadForm = document.querySelector('.img-upload__form');
   const uploadPanel = uploadForm.querySelector('.img-upload__overlay');
   const uploadFileInput = uploadForm.querySelector('#upload-file');
@@ -20,7 +28,17 @@
   const hashtagInput = uploadPanel.querySelector('.text__hashtags');
   const commentInput = uploadPanel.querySelector('.text__description');
   const currentScale = uploadForm.querySelector('.scale__control--value');
-  currentScale.value = `${Scale.IMG_SCALE_DEFAULT}%`;
+
+  const resetScale = () => {
+    currentScale.value = `${Scale.IMG_SCALE_DEFAULT}%`;
+    imgUploadPreview.style.transform = `scale(${Scale.IMG_SCALE_DEFAULT / Scale.IMG_SCALE_DEFAULT})`;
+  };
+
+  const resetFormAndEffects = () => {
+    resetScale();
+    window.effect.setDefaultEffect();
+    uploadForm.reset();
+  };
 
   const onEditPanelEscPress = (evt) => {
     if (document.activeElement !== hashtagInput && document.activeElement !== commentInput) {
@@ -29,18 +47,20 @@
   };
 
   const openEditPanel = () => {
+    resetScale();
     document.body.classList.toggle('modal-open');
-    uploadPanel.classList.toggle('hidden');
-    effectLevel.classList.toggle('hidden');
+    uploadPanel.classList.remove('hidden');
+    effectLevel.classList.add('hidden');
 
     document.addEventListener('keydown', onEditPanelEscPress);
     uploadCancelButton.addEventListener('click', onUploadCancelClick);
   };
 
   const closeEditPanel = () => {
+    resetFormAndEffects();
+
     document.body.classList.toggle('modal-open');
-    uploadPanel.classList.toggle('hidden');
-    uploadFileInput.value = '';
+    uploadPanel.classList.add('hidden');
 
     document.removeEventListener('keydown', onEditPanelEscPress);
     uploadCancelButton.removeEventListener('click', onUploadCancelClick);
@@ -87,4 +107,51 @@
   };
 
   hashtagInput.addEventListener('input', onHashtagInput);
+
+  const removeSuccessPanel = () => {
+    main.removeChild(successPanel);
+    successButton.removeEventListener('click', onSuccessButtonClick);
+    successPanel.removeEventListener('click', onSuccessPanelClick);
+    document.removeEventListener('keydown', onSuccessPanelEscPress);
+  };
+
+  const onSuccessButtonClick = removeSuccessPanel;
+
+  const onSuccessPanelClick = (evt) => {
+    if (evt.target.className === successPanel.className) {
+      removeSuccessPanel();
+    }
+  };
+
+  const onSuccessPanelEscPress = (evt) => {
+    window.utils.isEscEvent(evt, removeSuccessPanel);
+  };
+
+  const showSuccessPanel = () => {
+    successPanel = successPanelFragment.cloneNode(true);
+    successButton = successPanel.querySelector('.success__button');
+
+    main.appendChild(successPanel);
+
+    successButton.addEventListener('click', onSuccessButtonClick);
+    successPanel.addEventListener('click', onSuccessPanelClick);
+    document.addEventListener('keydown', onSuccessPanelEscPress);
+  };
+
+  const successHandler = () => {
+    uploadPanel.classList.add('hidden');
+    resetFormAndEffects();
+    showSuccessPanel();
+  };
+
+  const errorHandler = () => {
+
+  };
+
+  const onSubmit = (evt) => {
+    evt.preventDefault();
+    window.backend.save(new FormData(uploadForm), successHandler, errorHandler);
+  };
+
+  uploadForm.addEventListener('submit', onSubmit);
 })();

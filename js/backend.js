@@ -9,9 +9,7 @@
     OK: 200
   };
 
-  const generateTextError = (code, text) => {
-    `Статус ответа: ${code} ${text}`
-  };
+  const generateTextError = (code, text) => `Статус ответа: ${code} ${text}`;
 
   const onLoadComplete = (xhr, onLoad, onError) => () => {
     if (xhr.status === StatusCode.OK) {

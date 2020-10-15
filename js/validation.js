@@ -29,7 +29,9 @@
     setHashtagValidationMessage: (hashtag, index, hashtags) => {
       const [firstLetter] = hashtag;
 
-      if (firstLetter !== '' && firstLetter !== '#') {
+      if (!firstLetter) {
+        hashtagInput.setCustomValidity('');
+      } else if (firstLetter !== '#') {
         hashtagInput.setCustomValidity(HashtagValidationMessage.FIRST_LETTER_INVALID);
       } else if (hashtag.length < Hashtag.MIN_LENGTH) {
         hashtagInput.setCustomValidity(getHashtagTooShortMessage(hashtag));
@@ -45,7 +47,11 @@
         hashtagInput.setCustomValidity('');
       }
 
-      hashtagInput.reportValidity();
+      if (!hashtagInput.reportValidity()) {
+        hashtagInput.style.outlineColor = 'tomato';
+      } else {
+        hashtagInput.style.outlineColor = 'black';
+      }
     }
   };
 })();

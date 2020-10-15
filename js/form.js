@@ -1,26 +1,14 @@
 'use strict';
 
 (() => {
-  const Scale = {
-    IMG_SCALE_DEFAULT: 100,
-    IMG_SCALE_MAX: 100,
-    IMG_SCALE_MIN: 25,
-    IMG_SCALE_STEP: 25
-  };
-
   const uploadForm = document.querySelector('.img-upload__form');
   const uploadPanel = uploadForm.querySelector('.img-upload__overlay');
   const uploadFileInput = uploadForm.querySelector('#upload-file');
   const uploadCancelButton = uploadForm.querySelector('#upload-cancel');
 
-  const imgUploadPreview = uploadPanel.querySelector('.img-upload__preview');
-  const scaleControlSmall = uploadForm.querySelector('.scale__control--smaller');
-  const scaleControlBig = uploadForm.querySelector('.scale__control--bigger');
   const effectLevel = uploadPanel.querySelector('.effect-level');
   const hashtagInput = uploadPanel.querySelector('.text__hashtags');
   const commentInput = uploadPanel.querySelector('.text__description');
-  const currentScale = uploadForm.querySelector('.scale__control--value');
-  currentScale.value = `${Scale.IMG_SCALE_DEFAULT}%`;
 
   const onEditPanelEscPress = (evt) => {
     if (document.activeElement !== hashtagInput && document.activeElement !== commentInput) {
@@ -29,18 +17,21 @@
   };
 
   const openEditPanel = () => {
+    window.effect.resetScale();
     document.body.classList.toggle('modal-open');
-    uploadPanel.classList.toggle('hidden');
-    effectLevel.classList.toggle('hidden');
+    uploadPanel.classList.remove('hidden');
+    effectLevel.classList.add('hidden');
 
     document.addEventListener('keydown', onEditPanelEscPress);
     uploadCancelButton.addEventListener('click', onUploadCancelClick);
   };
 
   const closeEditPanel = () => {
+    window.effect.setDefaultEffect();
+    uploadForm.reset();
+
     document.body.classList.toggle('modal-open');
-    uploadPanel.classList.toggle('hidden');
-    uploadFileInput.value = '';
+    uploadPanel.classList.add('hidden');
 
     document.removeEventListener('keydown', onEditPanelEscPress);
     uploadCancelButton.removeEventListener('click', onUploadCancelClick);
@@ -52,32 +43,6 @@
 
   uploadFileInput.addEventListener('change', onUploadFileInputChange);
 
-  const subtractScaleInput = () => {
-    const scale = parseInt(currentScale.value.replace('%', ''), 10);
-    return scale - Scale.IMG_SCALE_STEP < Scale.IMG_SCALE_MIN ? Scale.IMG_SCALE_MIN : scale - Scale.IMG_SCALE_STEP;
-  };
-
-  const addScaleInput = () => {
-    const scale = parseInt(currentScale.value.replace('%', ''), 10);
-    return scale + Scale.IMG_SCALE_STEP > Scale.IMG_SCALE_MAX ? Scale.IMG_SCALE_MAX : scale + Scale.IMG_SCALE_STEP;
-  };
-
-  const onScaleDown = () => {
-    const scaleInputValue = subtractScaleInput();
-    currentScale.value = `${scaleInputValue}%`;
-    imgUploadPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
-  };
-
-  const onScaleUp = () => {
-    const scaleInputValue = addScaleInput();
-    currentScale.value = `${scaleInputValue}%`;
-    imgUploadPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
-  };
-
-  scaleControlSmall.addEventListener('click', onScaleDown);
-
-  scaleControlBig.addEventListener('click', onScaleUp);
-
   uploadForm.addEventListener('change', window.effect.onEffectChange);
 
   const onHashtagInput = () => {
@@ -87,4 +52,11 @@
   };
 
   hashtagInput.addEventListener('input', onHashtagInput);
+
+  const onSubmit = (evt) => {
+    evt.preventDefault();
+    window.backend.save(new FormData(uploadForm), window.handlers.successHandler, window.handlers.errorHandler);
+  };
+
+  uploadForm.addEventListener('submit', onSubmit);
 })();

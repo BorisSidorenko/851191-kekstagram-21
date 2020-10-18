@@ -7,6 +7,8 @@
     DISCUSSED: "filter-discussed"
   };
 
+  const RANDOM_PHOTOS_AMOUNT = 10;
+
   const picturesContainer = document.querySelector('.pictures');
   const filterForm = document.querySelector('.img-filters__form');
 
@@ -24,7 +26,7 @@
     }
   };
 
-  const sortInRandomOrder = (photos) => shufflePhotos(photos).splice(10);
+  const sortInRandomOrder = (photos) => shufflePhotos(photos).splice(RANDOM_PHOTOS_AMOUNT);
 
   const shufflePhotos = (photos) => {
     for (let i = photos.length - 1; i > 0; i--) {

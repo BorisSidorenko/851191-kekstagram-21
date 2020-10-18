@@ -47,14 +47,17 @@
     });
   };
 
-  const onFilterChange = (photos) => (evt) => {
-    let photosToSort = Array.from(photos);
+  const changeActiveFilter = (evt) => {
     const activeFilter = filterForm.querySelector(`.${ACTIVE_FILTER_CLASS}`);
     if (activeFilter) {
       activeFilter.classList.remove(ACTIVE_FILTER_CLASS);
     }
-
     evt.target.classList.add(ACTIVE_FILTER_CLASS);
+  };
+
+  const applyFilter = (evt, photos) => () => {
+    let photosToSort = Array.from(photos);
+
     clearPicturesContainer();
 
     switch (evt.target.id) {
@@ -68,6 +71,11 @@
         break;
     }
     window.data.renderPhotos(photosToSort);
+  };
+
+  const onFilterChange = (photos) => (evt) => {
+    changeActiveFilter(evt);
+    window.debounce(() => applyFilter(evt, photos));
   };
 
   window.filter = {

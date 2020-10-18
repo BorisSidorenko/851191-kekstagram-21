@@ -24,6 +24,18 @@
     }
   };
 
+  const sortInRandomOrder = (photos) => shufflePhotos(photos).splice(10);
+
+  const shufflePhotos = (photos) => {
+    for (let i = photos.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = photos[i];
+      photos[i] = photos[j];
+      photos[j] = temp;
+    }
+    return photos;
+  };
+
   const clearPicturesContainer = () => {
     const children = Array.from(picturesContainer.children);
     children.forEach((child) => {
@@ -45,14 +57,15 @@
 
     switch (evt.target.id) {
       case FilterIds.RANDOM:
+        sortInRandomOrder(photosToSort);
         break;
       case FilterIds.DISCUSSED:
-        window.data.renderPhotos(sortByDiscussed(photosToSort));
+        sortByDiscussed(photosToSort);
         break;
       default:
-        window.data.renderPhotos(photos);
         break;
     }
+    window.data.renderPhotos(photosToSort);
   };
 
   window.filter = {

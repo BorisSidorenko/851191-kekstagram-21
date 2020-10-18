@@ -14,17 +14,7 @@
 
   const ACTIVE_FILTER_CLASS = 'img-filters__button--active';
 
-  const sortByDiscussed = (photos) => photos.sort(compareCommentsCount);
-
-  const compareCommentsCount = (current, previous) => {
-    if (previous.comments > current.comments) {
-      return 1;
-    } else if (previous.comments < current.comments) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
+  const sortByDiscussed = (photos) => photos.sort((a, b) => b.comments.length - a.comments.length);
 
   const sortInRandomOrder = (photos) => shufflePhotos(photos).splice(RANDOM_PHOTOS_AMOUNT);
 

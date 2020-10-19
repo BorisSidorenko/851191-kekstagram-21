@@ -45,7 +45,7 @@
     evt.target.classList.add(ACTIVE_FILTER_CLASS);
   };
 
-  const applyFilter = (evt, photos) => () => {
+  const applyFilter = (evt, photos) => {
     let photosToSort = Array.from(photos);
 
     clearPicturesContainer();
@@ -65,7 +65,7 @@
 
   const onFilterChange = (photos) => (evt) => {
     changeActiveFilter(evt);
-    window.debounce(() => applyFilter(evt, photos));
+    window.debounce(() => applyFilter(evt, photos))();
   };
 
   window.filter = {

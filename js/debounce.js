@@ -6,7 +6,7 @@
   window.debounce = (cb) => {
     let lastTimeout = null;
 
-    return function (...args) {
+    return (...args) => {
       if (lastTimeout) {
         window.clearTimeout(lastTimeout);
       }

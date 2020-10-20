@@ -35,7 +35,6 @@
   }
 
   window.filter.filterChangeHandler(window.debounce((evt) => {
-    window.filter.changeActiveFilter(evt);
     updatePhotos(evt);
   }));
 

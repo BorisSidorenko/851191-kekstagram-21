@@ -67,8 +67,9 @@
     window.data.renderPhotos(photosToSort);
   };
 
-  const onFilterClick = (photos) => {
-    filter.onFilterChange(photos);
+  const onFilterClick = (evt) => {
+    changeActiveFilter(evt);
+    filter.onFilterChange(evt);
   };
 
   filterForm.addEventListener('click', onFilterClick);
@@ -77,7 +78,6 @@
     filterChangeHandler: (cb) => {
       filter.onFilterChange = cb;
     },
-    changeActiveFilter,
     applyFilter
   };
 })();

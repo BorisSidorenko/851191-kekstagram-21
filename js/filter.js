@@ -18,6 +18,10 @@
 
   const sortInRandomOrder = (photos) => shufflePhotos(photos).splice(RANDOM_PHOTOS_AMOUNT);
 
+  const filter = {
+    onFilterChange: () => {}
+  };
+
   const shufflePhotos = (photos) => {
     for (let i = photos.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
@@ -63,12 +67,17 @@
     window.data.renderPhotos(photosToSort);
   };
 
-  const onFilterChange = (photos) => (evt) => {
-    changeActiveFilter(evt);
-    window.debounce(() => applyFilter(evt, photos))();
+  const onFilterClick = (photos) => {
+    filter.onFilterChange(photos);
   };
 
+  filterForm.addEventListener('click', onFilterClick);
+
   window.filter = {
-    onFilterChange
+    filterChangeHandler: (cb) => {
+      filter.onFilterChange = cb;
+    },
+    changeActiveFilter,
+    applyFilter
   };
 })();

@@ -30,11 +30,19 @@
     picturesContainer.appendChild(pictureFragment);
   };
 
+  const updatePhotos = (evt) => {
+    window.filter.applyFilter(evt, loadedPhotos);
+  }
+
+  window.filter.filterChangeHandler(window.debounce((evt) => {
+    window.filter.changeActiveFilter(evt);
+    updatePhotos(evt);
+  }));
+
   const successHandler = (photos) => {
     loadedPhotos = photos;
     renderPhotos(loadedPhotos);
     filter.classList.remove('img-filters--inactive');
-    filterForm.addEventListener('click', window.filter.onFilterChange(photos));
   };
 
   const errorHandler = (errorMessage) => {

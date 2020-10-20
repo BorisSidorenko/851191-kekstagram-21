@@ -4,7 +4,6 @@
   const picturesContainer = document.querySelector('.pictures');
   const pictureTemplate = document.querySelector('#picture').content;
   const filter = document.querySelector('.img-filters');
-  const filterForm = document.querySelector('.img-filters__form');
 
   let loadedPhotos = [];
 
@@ -32,7 +31,7 @@
 
   const updatePhotos = (evt) => {
     window.filter.applyFilter(evt, loadedPhotos);
-  }
+  };
 
   window.filter.filterChangeHandler(window.debounce((evt) => {
     updatePhotos(evt);

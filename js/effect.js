@@ -24,24 +24,26 @@
     imgUploadPreview.style.transform = `scale(${Scale.IMG_SCALE_DEFAULT / Scale.IMG_SCALE_DEFAULT})`;
   };
 
-  const subtractScaleInput = () => {
-    const scale = parseInt(currentScale.value.replace('%', ''), 10);
-    return scale - Scale.IMG_SCALE_STEP < Scale.IMG_SCALE_MIN ? Scale.IMG_SCALE_MIN : scale - Scale.IMG_SCALE_STEP;
+  const getCurrentScale = () => parseInt(currentScale.value.replace('%', ''), 10);
+
+  const subtractScaleInput = (scale) => {
+    const isMinScale = scale - Scale.IMG_SCALE_STEP < Scale.IMG_SCALE_MIN;
+    return isMinScale ? Scale.IMG_SCALE_MIN : scale - Scale.IMG_SCALE_STEP;
   };
 
-  const addScaleInput = () => {
-    const scale = parseInt(currentScale.value.replace('%', ''), 10);
-    return scale + Scale.IMG_SCALE_STEP > Scale.IMG_SCALE_MAX ? Scale.IMG_SCALE_MAX : scale + Scale.IMG_SCALE_STEP;
+  const addScaleInput = (scale) => {
+    const isMaxScale = scale + Scale.IMG_SCALE_STEP > Scale.IMG_SCALE_MAX;
+    return isMaxScale ? Scale.IMG_SCALE_MAX : scale + Scale.IMG_SCALE_STEP;
   };
 
   const onScaleDown = () => {
-    const scaleInputValue = subtractScaleInput();
+    const scaleInputValue = subtractScaleInput(getCurrentScale());
     currentScale.value = `${scaleInputValue}%`;
     imgUploadPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
   };
 
   const onScaleUp = () => {
-    const scaleInputValue = addScaleInput();
+    const scaleInputValue = addScaleInput(getCurrentScale());
     currentScale.value = `${scaleInputValue}%`;
     imgUploadPreview.style.transform = `scale(${scaleInputValue / Scale.IMG_SCALE_MAX})`;
   };

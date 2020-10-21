@@ -3,6 +3,7 @@
 (() => {
   const picturesContainer = document.querySelector('.pictures');
   const pictureTemplate = document.querySelector('#picture').content;
+  const filter = document.querySelector('.img-filters');
 
   let loadedPhotos = [];
 
@@ -22,11 +23,24 @@
     return pictureElement;
   };
 
+  const renderPhotos = (photos) => {
+    const pictureFragment = document.createDocumentFragment();
+    photos.forEach(addPhotoToFragment(pictureFragment));
+    picturesContainer.appendChild(pictureFragment);
+  };
+
+  const updatePhotos = (evt) => {
+    window.filter.applyFilter(evt, loadedPhotos);
+  };
+
+  window.filter.filterChangeHandler(window.debounce((evt) => {
+    updatePhotos(evt);
+  }));
+
   const successHandler = (photos) => {
     loadedPhotos = photos;
-    const pictureFragment = document.createDocumentFragment();
-    loadedPhotos.forEach(addPhotoToFragment(pictureFragment));
-    picturesContainer.appendChild(pictureFragment);
+    renderPhotos(loadedPhotos);
+    filter.classList.remove('img-filters--inactive');
   };
 
   const errorHandler = (errorMessage) => {
@@ -48,6 +62,7 @@
   window.backend.load(successHandler, errorHandler);
 
   window.data = {
-    getPhoto
+    getPhoto,
+    renderPhotos
   };
 })();

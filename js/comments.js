@@ -27,6 +27,11 @@
 
   const getFirstNComments = (comments) => comments.slice(0, COMMENTS_TO_SHOW_COUNT);
 
+  const updateOutOfCommentsCount = (newCount) => {
+    const amountOfShownComments = socialCommentsCount.innerHTML.split(` `)[0];
+    socialCommentsCount.innerHTML = socialCommentsCount.innerHTML.replace(amountOfShownComments, newCount);
+  };
+
   const appendComments = () => {
     shownComments = shownComments.concat(allComments.slice(shownComments.length, shownComments.length + COMMENTS_TO_SHOW_COUNT));
 
@@ -35,6 +40,7 @@
     }
 
     renderComments(shownComments);
+    updateOutOfCommentsCount(shownComments.length);
   };
 
   const onCommentsLoaderClick = appendComments;
@@ -46,6 +52,7 @@
       commentsLoaderButton.addEventListener('click', onCommentsLoaderClick);
     } else {
       socialCommentsCount.classList.add('hidden');
+      commentsLoaderButton.classList.add('hidden');
     }
   };
 
@@ -57,6 +64,7 @@
   const rendenderPhotoAndComments = ({url, description, likes, comments}) => {
     allComments = comments;
     shownComments = getFirstNComments(comments);
+    updateOutOfCommentsCount(shownComments.length);
 
     bigPicture.querySelector('.big-picture__img').querySelector('img').src = url;
     bigPicture.querySelector('.likes-count').textContent = likes;

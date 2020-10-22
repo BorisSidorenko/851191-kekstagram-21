@@ -29,6 +29,11 @@
 
   const appendComments = () => {
     shownComments = shownComments.concat(allComments.slice(shownComments.length, shownComments.length + COMMENTS_TO_SHOW_COUNT));
+
+    if (shownComments.length === allComments.length) {
+      disableCommentsLoader();
+    }
+
     renderComments(shownComments);
   };
 
@@ -41,11 +46,11 @@
       commentsLoaderButton.addEventListener('click', onCommentsLoaderClick);
     } else {
       socialCommentsCount.classList.add('hidden');
-      commentsLoaderButton.classList.add('hidden');
     }
   };
 
   const disableCommentsLoader = () => {
+    commentsLoaderButton.classList.add('hidden');
     commentsLoaderButton.removeEventListener('click', onCommentsLoaderClick);
   };
 

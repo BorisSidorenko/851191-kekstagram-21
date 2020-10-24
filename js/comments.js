@@ -21,32 +21,28 @@
     socialComments.appendChild(commentsFragment);
   };
 
-  const removeDefaultComments = () => {
-    Array.from(bigPicture.querySelectorAll('.social__comment')).forEach((element) => element.remove());
-  };
-
   const getFirstNComments = (comments) => comments.slice(0, COMMENTS_TO_SHOW_COUNT);
 
   const updateOutOfCommentsCount = (newCount) => {
-    const amountOfShownComments = socialCommentsCount.innerHTML.split(` `)[0];
-    socialCommentsCount.innerHTML = socialCommentsCount.innerHTML.replace(amountOfShownComments, newCount);
+    const [count] = socialCommentsCount.innerHTML.split(` `);
+    socialCommentsCount.innerHTML = socialCommentsCount.innerHTML.replace(count, newCount);
   };
 
-  const appendComments = () => {
+  const onCommentsLoaderClick = () => {
     shownComments = shownComments.concat(allComments.slice(shownComments.length, shownComments.length + COMMENTS_TO_SHOW_COUNT));
 
     if (shownComments.length === allComments.length) {
-      disableCommentsLoader();
+      disableLastCommentsLoader();
     }
 
     renderComments(shownComments);
     updateOutOfCommentsCount(shownComments.length);
   };
 
-  const onCommentsLoaderClick = appendComments;
-
   const enableCommentsLoader = (comments) => {
     if (comments.length > COMMENTS_TO_SHOW_COUNT) {
+      disableLastCommentsLoader();
+
       socialCommentsCount.classList.remove('hidden');
       commentsLoaderButton.classList.remove('hidden');
       commentsLoaderButton.addEventListener('click', onCommentsLoaderClick);
@@ -56,7 +52,7 @@
     }
   };
 
-  const disableCommentsLoader = () => {
+  const disableLastCommentsLoader = () => {
     commentsLoaderButton.classList.add('hidden');
     commentsLoaderButton.removeEventListener('click', onCommentsLoaderClick);
   };
@@ -71,20 +67,21 @@
     bigPicture.querySelector('.comments-count').textContent = comments.length;
     renderComments(shownComments);
     bigPicture.querySelector('.social__caption').textContent = description;
+
+    enableCommentsLoader(allComments);
   };
 
   const addCommentToFragment = (fragment, {avatar, name, message}) => {
     const commentElement = commentElementTemplate.cloneNode(true);
+
     commentElement.querySelector('img').src = avatar;
     commentElement.querySelector('img').alt = name;
     commentElement.querySelector('.social__text').textContent = message;
+
     fragment.appendChild(commentElement);
   };
 
   window.comments = {
-    removeDefaultComments,
-    enableCommentsLoader,
-    rendenderPhotoAndComments,
-    disableCommentsLoader
+    rendenderPhotoAndComments
   };
 })();

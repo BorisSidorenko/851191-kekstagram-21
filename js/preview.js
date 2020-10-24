@@ -10,7 +10,6 @@
 
     document.removeEventListener('keydown', onBigPictureEscPress);
     closePictureButton.removeEventListener('click', onClosePictureButtonClick);
-    window.comments.disableCommentsLoader();
   };
 
   const onBigPictureEscPress = (evt) => window.utils.isEscEvent(evt, hideBigPicture);
@@ -25,9 +24,7 @@
     if (picturePath) {
       const photo = window.data.getPhoto(picturePath);
 
-      window.comments.removeDefaultComments();
       window.comments.rendenderPhotoAndComments(photo);
-      window.comments.enableCommentsLoader(photo.comments);
 
       document.activeElement.blur();
 

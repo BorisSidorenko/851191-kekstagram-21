@@ -10,6 +10,7 @@
 
   let allComments = [];
   let shownComments = [];
+  let commentsLoaderClickCounter = 1;
 
   const renderComments = (arrComments) => {
     const socialComments = bigPicture.querySelector('.social__comments');
@@ -21,7 +22,7 @@
     socialComments.appendChild(commentsFragment);
   };
 
-  const getFirstNComments = (comments) => comments.slice(0, COMMENTS_TO_SHOW_COUNT);
+  const getCommentsToShow = (allComments) => allComments.slice(0, COMMENTS_TO_SHOW_COUNT * commentsLoaderClickCounter);
 
   const updateOutOfCommentsCount = (newCount) => {
     const [count] = socialCommentsCount.innerHTML.split(` `);
@@ -29,7 +30,8 @@
   };
 
   const onCommentsLoaderClick = () => {
-    shownComments = shownComments.concat(allComments.slice(shownComments.length, shownComments.length + COMMENTS_TO_SHOW_COUNT));
+    commentsLoaderClickCounter++;
+    shownComments = getCommentsToShow(allComments);
 
     if (shownComments.length === allComments.length) {
       disableLastCommentsLoader();
@@ -53,13 +55,14 @@
   };
 
   const disableLastCommentsLoader = () => {
+    commentsLoaderClickCounter = 1;
     commentsLoaderButton.classList.add('hidden');
     commentsLoaderButton.removeEventListener('click', onCommentsLoaderClick);
   };
 
   const rendenderPhotoAndComments = ({url, description, likes, comments}) => {
     allComments = comments;
-    shownComments = getFirstNComments(comments);
+    shownComments = getCommentsToShow(allComments);
     updateOutOfCommentsCount(shownComments.length);
 
     bigPicture.querySelector('.big-picture__img').querySelector('img').src = url;

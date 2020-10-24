@@ -22,7 +22,7 @@
     socialComments.appendChild(commentsFragment);
   };
 
-  const getCommentsToShow = (allComments) => allComments.slice(0, COMMENTS_TO_SHOW_COUNT * commentsLoaderClickCounter);
+  const getCommentsToShow = (comments) => comments.slice(0, COMMENTS_TO_SHOW_COUNT * commentsLoaderClickCounter);
 
   const updateOutOfCommentsCount = (newCount) => {
     const [count] = socialCommentsCount.innerHTML.split(` `);

@@ -14,7 +14,9 @@ const onFileLoad = (evt) => {
 const onInputUploadChange = () => {
   const file = inputUpload.files[0];
 
-  if (acceptedTypes.some((type) => type.trim() === file.type)) {
+  const isTypeAllowed = acceptedTypes.some((type) => type.trim() === file.type);
+
+  if (isTypeAllowed) {
     const reader = new FileReader();
 
     reader.addEventListener('load', onFileLoad);

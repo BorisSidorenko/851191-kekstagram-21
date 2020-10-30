@@ -1,8 +1,8 @@
 'use strict';
 
 const KeyCode = {
-  ESC_CODE: 'Escape',
-  ENTER_CODE: 'Enter'
+  ESC_CODE: `Escape`,
+  ENTER_CODE: `Enter`
 };
 
 window.utils = {

@@ -1,10 +1,10 @@
 'use strict';
 
 const RANDOM_PHOTOS_AMOUNT = 10;
-const ACTIVE_FILTER_CLASS = 'img-filters__button--active';
+const ACTIVE_FILTER_CLASS = `img-filters__button--active`;
 
-const picturesContainer = document.querySelector('.pictures');
-const filterForm = document.querySelector('.img-filters__form');
+const picturesContainer = document.querySelector(`.pictures`);
+const filterForm = document.querySelector(`.img-filters__form`);
 
 const sortByDiscussed = (photos) => photos.sort((a, b) => b.comments.length - a.comments.length);
 
@@ -34,7 +34,7 @@ const clearPicturesContainer = () => {
   const children = Array.from(picturesContainer.children);
 
   children.forEach((child) => {
-    if (child.classList.contains('picture')) {
+    if (child.classList.contains(`picture`)) {
       child.remove();
     }
   });
@@ -64,7 +64,7 @@ const onFilterClick = (evt) => {
   filter.onFilterChange(evt);
 };
 
-filterForm.addEventListener('click', onFilterClick);
+filterForm.addEventListener(`click`, onFilterClick);
 
 window.filter = {
   filterChangeHandler: (cb) => {

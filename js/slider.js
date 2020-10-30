@@ -11,15 +11,15 @@ const Effect = {
   BRIGHTNESS_MAX: 3
 };
 
-const uploadForm = document.querySelector('.img-upload__form');
-const imgUploadPreview = uploadForm.querySelector('.img-upload__preview');
-const imgUpload = imgUploadPreview.querySelector('img');
+const uploadForm = document.querySelector(`.img-upload__form`);
+const imgUploadPreview = uploadForm.querySelector(`.img-upload__preview`);
+const imgUpload = imgUploadPreview.querySelector(`img`);
 
-const slider = uploadForm.querySelector('.effect-level');
-const sliderInput = slider.querySelector('.effect-level__value');
-const sliderLine = slider.querySelector('.effect-level__line');
-const sliderPin = sliderLine.querySelector('.effect-level__pin');
-const sliderDepth = sliderLine.querySelector('.effect-level__depth');
+const slider = uploadForm.querySelector(`.effect-level`);
+const sliderInput = slider.querySelector(`.effect-level__value`);
+const sliderLine = slider.querySelector(`.effect-level__line`);
+const sliderPin = sliderLine.querySelector(`.effect-level__pin`);
+const sliderDepth = sliderLine.querySelector(`.effect-level__depth`);
 
 const SLIDER_MAX_VALUE = 100;
 const SLIDER_MIN_VALUE = 0;
@@ -50,15 +50,15 @@ const setBrightness = (saturationValue) => {
   return `filter: brightness(${brightnessValue})`;
 };
 
-const setOriginal = () => '';
+const setOriginal = () => ``;
 
 const saturationFilterMap = new Map([
-  ["effects__preview--chrome", setGrayscale],
-  ["effects__preview--sepia", setSepia],
-  ["effects__preview--marvin", setInvert],
-  ["effects__preview--phobos", setBlur],
-  ["effects__preview--heat", setBrightness],
-  ["effects__preview--none", setOriginal],
+  [`effects__preview--chrome`, setGrayscale],
+  [`effects__preview--sepia`, setSepia],
+  [`effects__preview--marvin`, setInvert],
+  [`effects__preview--phobos`, setBlur],
+  [`effects__preview--heat`, setBrightness],
+  [`effects__preview--none`, setOriginal],
 ]);
 
 const getSaturation = (saturationKey) => saturationFilterMap.get(saturationKey);
@@ -78,7 +78,7 @@ const onMouseMove = (moveEvt) => {
 };
 
 const setNewPinPosition = (shift) => {
-  const sliderLineLength = getComputedStyle(sliderLine).width.replace('px', '');
+  const sliderLineLength = getComputedStyle(sliderLine).width.replace(`px`, ``);
   const currentPinPosition = sliderPin.offsetLeft - shift.x;
 
   let newPinPosition = 0;
@@ -106,8 +106,8 @@ const changeSaturation = (saturationValue) => {
 
 const onMouseUp = (evt) => {
   evt.preventDefault();
-  document.removeEventListener('mousemove', onMouseMove);
-  document.removeEventListener('mouseup', onMouseUp);
+  document.removeEventListener(`mousemove`, onMouseMove);
+  document.removeEventListener(`mouseup`, onMouseUp);
 };
 
 const onSliderPinMouseDown = (evt) => {
@@ -116,8 +116,8 @@ const onSliderPinMouseDown = (evt) => {
   startCoords.x = evt.clientX;
   startCoords.y = evt.clientY;
 
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
+  document.addEventListener(`mousemove`, onMouseMove);
+  document.addEventListener(`mouseup`, onMouseUp);
 };
 
 const renderDefaultSlider = () => {
@@ -126,7 +126,7 @@ const renderDefaultSlider = () => {
   sliderInput.value = `${SLIDER_MAX_VALUE}`;
 };
 
-sliderPin.addEventListener('mousedown', onSliderPinMouseDown);
+sliderPin.addEventListener(`mousedown`, onSliderPinMouseDown);
 
 window.slider = {
   renderDefaultSlider

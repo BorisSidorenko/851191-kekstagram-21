@@ -1,7 +1,7 @@
 'use strict';
 
-const GET_URL = 'https://21.javascript.pages.academy/kekstagram/data';
-const SEND_URL = 'https://21.javascript.pages.academy/kekstagram';
+const GET_URL = `https://21.javascript.pages.academy/kekstagram/data`;
+const SEND_URL = `https://21.javascript.pages.academy/kekstagram`;
 const TIMEOUT_MS = 10000;
 
 const StatusCode = {
@@ -18,13 +18,13 @@ const onLoadComplete = (xhr, onLoad, onError) => () => {
   }
 };
 
-const onFail = (onError) => () => onError('Произошла ошибка соединения');
+const onFail = (onError) => () => onError(`Произошла ошибка соединения`);
 
 const onTimeout = (xhr, onError) => () => onError(`Запрос не успел выполниться за ${xhr.timeout}мс`);
 
 const getNewXhr = () => {
   const xhr = new XMLHttpRequest();
-  xhr.responseType = 'json';
+  xhr.responseType = `json`;
   xhr.timeout = TIMEOUT_MS;
   return xhr;
 };
@@ -32,22 +32,22 @@ const getNewXhr = () => {
 const load = (onLoad, onError) => {
   const xhr = getNewXhr();
 
-  xhr.addEventListener('load', onLoadComplete(xhr, onLoad, onError));
+  xhr.addEventListener(`load`, onLoadComplete(xhr, onLoad, onError));
 
-  xhr.addEventListener('error', onFail(onError));
+  xhr.addEventListener(`error`, onFail(onError));
 
-  xhr.addEventListener('timeout', onTimeout(xhr, onError));
+  xhr.addEventListener(`timeout`, onTimeout(xhr, onError));
 
-  xhr.open('GET', GET_URL);
+  xhr.open(`GET`, GET_URL);
   xhr.send();
 };
 
 const save = (data, onLoad, onError) => {
   const xhr = getNewXhr();
 
-  xhr.addEventListener('load', onLoadComplete(xhr, onLoad, onError));
+  xhr.addEventListener(`load`, onLoadComplete(xhr, onLoad, onError));
 
-  xhr.open('POST', SEND_URL);
+  xhr.open(`POST`, SEND_URL);
   xhr.send(data);
 };
 

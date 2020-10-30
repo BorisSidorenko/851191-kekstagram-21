@@ -8,13 +8,13 @@ const Hashtag = {
 };
 
 const HashtagValidationMessage = {
-  FIRST_LETTER_INVALID: 'Хэштег должен начинаться с #',
-  SPECIAL_CHARACTER: 'Хэштег не должен содержать спецсимволы - #, @, $ и т. п.'
+  FIRST_LETTER_INVALID: `Хэштег должен начинаться с #`,
+  SPECIAL_CHARACTER: `Хэштег не должен содержать спецсимволы - #, @, $ и т. п.`
 };
 
-const uploadForm = document.querySelector('.img-upload__form');
-const uploadPanel = uploadForm.querySelector('.img-upload__overlay');
-const hashtagInput = uploadPanel.querySelector('.text__hashtags');
+const uploadForm = document.querySelector(`.img-upload__form`);
+const uploadPanel = uploadForm.querySelector(`.img-upload__overlay`);
+const hashtagInput = uploadPanel.querySelector(`.text__hashtags`);
 
 const getHashtagTooShortMessage = (hashtag) => `Ещё минимум ${Hashtag.MIN_LENGTH - hashtag.length} симв.`;
 
@@ -29,8 +29,8 @@ window.validation = {
     const [firstLetter] = hashtag;
 
     if (!firstLetter) {
-      hashtagInput.setCustomValidity('');
-    } else if (firstLetter !== '#') {
+      hashtagInput.setCustomValidity(``);
+    } else if (firstLetter !== `#`) {
       hashtagInput.setCustomValidity(HashtagValidationMessage.FIRST_LETTER_INVALID);
     } else if (hashtag.length < Hashtag.MIN_LENGTH) {
       hashtagInput.setCustomValidity(getHashtagTooShortMessage(hashtag));
@@ -43,13 +43,13 @@ window.validation = {
     } else if (hashtags.some((element, innerIndex) => element.toLowerCase() === hashtag.toLowerCase() && element[innerIndex] !== hashtag[index])) {
       hashtagInput.setCustomValidity(getHashtagDuplicateMessage(hashtag));
     } else {
-      hashtagInput.setCustomValidity('');
+      hashtagInput.setCustomValidity(``);
     }
 
     if (!hashtagInput.reportValidity()) {
-      hashtagInput.style.outlineColor = 'tomato';
+      hashtagInput.style.outlineColor = `tomato`;
     } else {
-      hashtagInput.style.outlineColor = 'black';
+      hashtagInput.style.outlineColor = `black`;
     }
   }
 };

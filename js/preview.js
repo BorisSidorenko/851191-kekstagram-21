@@ -1,14 +1,14 @@
 'use strict';
 
-const bigPicture = document.querySelector('.big-picture');
-const closePictureButton = bigPicture.querySelector('.cancel');
+const bigPicture = document.querySelector(`.big-picture`);
+const closePictureButton = bigPicture.querySelector(`.cancel`);
 
 const hideBigPicture = () => {
-  document.body.classList.toggle('modal-open');
-  bigPicture.classList.toggle('hidden');
+  document.body.classList.toggle(`modal-open`);
+  bigPicture.classList.toggle(`hidden`);
 
-  document.removeEventListener('keydown', onBigPictureEscPress);
-  closePictureButton.removeEventListener('click', onClosePictureButtonClick);
+  document.removeEventListener(`keydown`, onBigPictureEscPress);
+  closePictureButton.removeEventListener(`click`, onClosePictureButtonClick);
 };
 
 const onBigPictureEscPress = (evt) => window.utils.isEscEvent(evt, hideBigPicture);
@@ -27,10 +27,10 @@ const showBigPicture = (evt) => {
 
     document.activeElement.blur();
 
-    document.body.classList.toggle('modal-open');
-    bigPicture.classList.toggle('hidden');
-    document.addEventListener('keydown', onBigPictureEscPress);
-    closePictureButton.addEventListener('click', onClosePictureButtonClick);
+    document.body.classList.toggle(`modal-open`);
+    bigPicture.classList.toggle(`hidden`);
+    document.addEventListener(`keydown`, onBigPictureEscPress);
+    closePictureButton.addEventListener(`click`, onClosePictureButtonClick);
   }
 };
 

@@ -1,13 +1,13 @@
 'use strict';
 
-const inputUpload = document.querySelector('#upload-file');
-const previewContainer = document.querySelector('.img-upload__preview');
-const preview = previewContainer.querySelector('img');
+const inputUpload = document.querySelector(`#upload-file`);
+const previewContainer = document.querySelector(`.img-upload__preview`);
+const preview = previewContainer.querySelector(`img`);
 
-const acceptedTypes = inputUpload.accept.split(',');
+const acceptedTypes = inputUpload.accept.split(`,`);
 const previewDefaultSrc = preview.src;
 
-const onFileLoad = (evt) => preview.src = evt.target.result;
+const onFileLoad = (evt) => (preview.src = evt.target.result);
 
 const onInputUploadChange = () => {
   const [file] = inputUpload.files;
@@ -17,7 +17,7 @@ const onInputUploadChange = () => {
   if (isTypeAllowed) {
     const reader = new FileReader();
 
-    reader.addEventListener('load', onFileLoad);
+    reader.addEventListener(`load`, onFileLoad);
 
     reader.readAsDataURL(file);
   } else {
@@ -25,4 +25,4 @@ const onInputUploadChange = () => {
   }
 };
 
-inputUpload.addEventListener('change', onInputUploadChange);
+inputUpload.addEventListener(`change`, onInputUploadChange);

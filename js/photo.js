@@ -7,12 +7,10 @@ const preview = previewContainer.querySelector('img');
 const acceptedTypes = inputUpload.accept.split(',');
 const previewDefaultSrc = preview.src;
 
-const onFileLoad = (evt) => {
-  preview.src = evt.target.result;
-};
+const onFileLoad = (evt) => preview.src = evt.target.result;
 
 const onInputUploadChange = () => {
-  const file = inputUpload.files[0];
+  const [file] = inputUpload.files;
 
   const isTypeAllowed = acceptedTypes.some((type) => type.trim() === file.type);
 

@@ -16,6 +16,5 @@ window.utils = {
       evt.preventDefault();
       action(evt);
     }
-  },
-  getRandomNumberMaxToMin: (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min)
+  }
 };

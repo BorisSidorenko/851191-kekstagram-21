@@ -15,7 +15,7 @@ const onEditPanelEscPress = (evt) => {
   }
 };
 
-const openEditPanel = () => {
+const onUploadFileInputChange = () => {
   window.effect.resetScale();
   document.body.classList.toggle('modal-open');
   uploadPanel.classList.remove('hidden');
@@ -37,8 +37,6 @@ const closeEditPanel = () => {
 };
 
 const onUploadCancelClick = closeEditPanel;
-
-const onUploadFileInputChange = openEditPanel;
 
 uploadFileInput.addEventListener('change', onUploadFileInputChange);
 

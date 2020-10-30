@@ -16,7 +16,7 @@ const imgUploadPreview = uploadForm.querySelector('.img-upload__preview');
 const imgUpload = imgUploadPreview.querySelector('img');
 
 const slider = uploadForm.querySelector('.effect-level');
-const sliderlInput = slider.querySelector('.effect-level__value');
+const sliderInput = slider.querySelector('.effect-level__value');
 const sliderLine = slider.querySelector('.effect-level__line');
 const sliderPin = sliderLine.querySelector('.effect-level__pin');
 const sliderDepth = sliderLine.querySelector('.effect-level__depth');
@@ -94,9 +94,9 @@ const setNewPinPosition = (shift) => {
 
   sliderPin.style.left = `${newPositionRounded}%`;
   sliderDepth.style.width = `${Math.round(newPositionRounded)}%`;
-  sliderlInput.value = Math.round(newPositionRounded);
+  sliderInput.value = Math.round(newPositionRounded);
 
-  changeSaturation(sliderlInput.value);
+  changeSaturation(sliderInput.value);
 };
 
 const changeSaturation = (saturationValue) => {
@@ -123,7 +123,7 @@ const onSliderPinMouseDown = (evt) => {
 const renderDefaultSlider = () => {
   sliderPin.style.left = `${SLIDER_MAX_VALUE}%`;
   sliderDepth.style.width = `${SLIDER_MAX_VALUE}%`;
-  sliderlInput.value = `${SLIDER_MAX_VALUE}`;
+  sliderInput.value = `${SLIDER_MAX_VALUE}`;
 };
 
 sliderPin.addEventListener('mousedown', onSliderPinMouseDown);

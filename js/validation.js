@@ -4,7 +4,7 @@ const Hashtag = {
   MIN_LENGTH: 2,
   MAX_LENGTH: 20,
   MAX_COUNT: 5,
-  REGEX: /^#[a-zA-Z0-9]*$/
+  REGEX: /^#[а-яА-яa-zA-Z0-9]*$/
 };
 
 const HashtagValidationMessage = {

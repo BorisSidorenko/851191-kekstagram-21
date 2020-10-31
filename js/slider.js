@@ -63,7 +63,7 @@ const saturationFilterMap = new Map([
 
 const getSaturation = (saturationKey) => saturationFilterMap.get(saturationKey);
 
-const onMouseMove = (moveEvt) => {
+const onSliderPinMouseMove = (moveEvt) => {
   moveEvt.preventDefault();
 
   const shift = {
@@ -104,10 +104,10 @@ const changeSaturation = (saturationValue) => {
   imgUpload.style = getSaturation(saturationKey)(saturationValue);
 };
 
-const onMouseUp = (evt) => {
+const onSliderPinMouseUp = (evt) => {
   evt.preventDefault();
-  document.removeEventListener(`mousemove`, onMouseMove);
-  document.removeEventListener(`mouseup`, onMouseUp);
+  document.removeEventListener(`mousemove`, onSliderPinMouseMove);
+  document.removeEventListener(`mouseup`, onSliderPinMouseUp);
 };
 
 const onSliderPinMouseDown = (evt) => {
@@ -116,8 +116,8 @@ const onSliderPinMouseDown = (evt) => {
   startCoords.x = evt.clientX;
   startCoords.y = evt.clientY;
 
-  document.addEventListener(`mousemove`, onMouseMove);
-  document.addEventListener(`mouseup`, onMouseUp);
+  document.addEventListener(`mousemove`, onSliderPinMouseMove);
+  document.addEventListener(`mouseup`, onSliderPinMouseUp);
 };
 
 const renderDefault = () => {

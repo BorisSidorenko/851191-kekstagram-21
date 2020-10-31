@@ -77,7 +77,7 @@ const setToDefault = () => {
 };
 
 window.effect = {
-  onChange: onEffectChange,
+  onInputChange: onEffectChange,
   setToDefault,
   resetScale
 };

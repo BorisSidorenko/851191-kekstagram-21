@@ -37,6 +37,6 @@ const showBigPicture = (evt) => {
 const onPreviewClick = showBigPicture;
 
 window.preview = {
-  onClick: onPreviewClick,
-  onEnterPress: onPreviewEnterPress
+  onPictureClick: onPreviewClick,
+  onPictureEnterPress: onPreviewEnterPress
 };

@@ -2,5 +2,5 @@
 
 const picturesContainer = document.querySelector(`.pictures`);
 
-picturesContainer.addEventListener(`click`, window.preview.onClick);
-picturesContainer.addEventListener(`keydown`, window.preview.onEnterPress);
+picturesContainer.addEventListener(`click`, window.preview.onPictureClick);
+picturesContainer.addEventListener(`keydown`, window.preview.onPictureEnterPress);

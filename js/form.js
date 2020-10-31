@@ -40,7 +40,7 @@ const onUploadCancelClick = closeEditPanel;
 
 uploadFileInput.addEventListener(`change`, onUploadFileInputChange);
 
-uploadForm.addEventListener(`change`, window.effect.onChange);
+uploadForm.addEventListener(`change`, window.effect.onInputChange);
 
 const onHashtagInput = () => {
   const hashtags = hashtagInput.value.trim().split(` `);
@@ -50,9 +50,9 @@ const onHashtagInput = () => {
 
 hashtagInput.addEventListener(`input`, onHashtagInput);
 
-const onSubmit = (evt) => {
+const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
   window.backend.save(new FormData(uploadForm), window.handlers.success, window.handlers.error);
 };
 
-uploadForm.addEventListener(`submit`, onSubmit);
+uploadForm.addEventListener(`submit`, onUploadFormSubmit);

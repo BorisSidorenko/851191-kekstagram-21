@@ -29,10 +29,10 @@ const renderPhotos = (photos) => {
 };
 
 const updatePhotos = (evt) => {
-  window.filter.applyFilter(evt, loadedPhotos);
+  window.filter.apply(evt, loadedPhotos);
 };
 
-window.filter.filterChangeHandler(window.debounce((evt) => {
+window.filter.changeHandler(window.debounce((evt) => {
   updatePhotos(evt);
 }));
 

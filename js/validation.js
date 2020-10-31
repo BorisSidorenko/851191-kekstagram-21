@@ -35,7 +35,7 @@ const hashtagsAlreadyHaveDuplicates = (hashtags) => {
 };
 
 window.validation = {
-  setHashtagValidationMessage: (hashtag, index, hashtags) => {
+  setHashtagMessage: (hashtag, index, hashtags) => {
     const [firstLetter] = hashtag;
 
     if (!firstLetter) {

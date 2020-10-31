@@ -50,7 +50,7 @@ const changeActiveFilter = (evt) => {
   evt.target.classList.add(ACTIVE_FILTER_CLASS);
 };
 
-const applyFilter = (evt, photos) => {
+const apply = (evt, photos) => {
   let photosToSort = Array.from(photos);
 
   filterMap.get(evt.target.id)(photosToSort);
@@ -67,8 +67,8 @@ const onFilterClick = (evt) => {
 filterForm.addEventListener(`click`, onFilterClick);
 
 window.filter = {
-  filterChangeHandler: (cb) => {
+  changeHandler: (cb) => {
     filter.onFilterChange = cb;
   },
-  applyFilter
+  apply
 };

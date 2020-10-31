@@ -84,5 +84,5 @@ const addCommentToFragment = (fragment, {avatar, name, message}) => {
 };
 
 window.comments = {
-  rendenderPhotoAndComments
+  render: rendenderPhotoAndComments
 };

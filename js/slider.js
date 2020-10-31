@@ -120,7 +120,7 @@ const onSliderPinMouseDown = (evt) => {
   document.addEventListener(`mouseup`, onMouseUp);
 };
 
-const renderDefaultSlider = () => {
+const renderDefault = () => {
   sliderPin.style.left = `${SLIDER_MAX_VALUE}%`;
   sliderDepth.style.width = `${SLIDER_MAX_VALUE}%`;
   sliderInput.value = `${SLIDER_MAX_VALUE}`;
@@ -129,5 +129,5 @@ const renderDefaultSlider = () => {
 sliderPin.addEventListener(`mousedown`, onSliderPinMouseDown);
 
 window.slider = {
-  renderDefaultSlider
+  renderDefault
 };

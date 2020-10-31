@@ -26,7 +26,7 @@ const onUploadFileInputChange = () => {
 };
 
 const closeEditPanel = () => {
-  window.effect.setDefaultEffect();
+  window.effect.setToDefault();
   uploadForm.reset();
 
   document.body.classList.toggle(`modal-open`);
@@ -40,19 +40,19 @@ const onUploadCancelClick = closeEditPanel;
 
 uploadFileInput.addEventListener(`change`, onUploadFileInputChange);
 
-uploadForm.addEventListener(`change`, window.effect.onEffectChange);
+uploadForm.addEventListener(`change`, window.effect.onChange);
 
 const onHashtagInput = () => {
   const hashtags = hashtagInput.value.trim().split(` `);
 
-  hashtags.forEach(window.validation.setHashtagValidationMessage);
+  hashtags.forEach(window.validation.setHashtagMessage);
 };
 
 hashtagInput.addEventListener(`input`, onHashtagInput);
 
 const onSubmit = (evt) => {
   evt.preventDefault();
-  window.backend.save(new FormData(uploadForm), window.handlers.successHandler, window.handlers.errorHandler);
+  window.backend.save(new FormData(uploadForm), window.handlers.success, window.handlers.error);
 };
 
 uploadForm.addEventListener(`submit`, onSubmit);

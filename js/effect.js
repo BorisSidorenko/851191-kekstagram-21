@@ -59,7 +59,7 @@ const onEffectChange = (evt) => {
 
     imgUpload.classList.add(`effects__preview--${evt.target.value}`);
     imgUpload.style = ``;
-    window.slider.renderDefaultSlider();
+    window.slider.renderDefault();
 
     if (imgUpload.classList.contains(`effects__preview--none`)) {
       effectLevel.classList.add(`hidden`);
@@ -69,7 +69,7 @@ const onEffectChange = (evt) => {
   }
 };
 
-const setDefaultEffect = () => {
+const setToDefault = () => {
   imgUpload.style = ``;
   imgUpload.className = ``;
   imgUpload.classList.add(`effects__preview--none`);
@@ -77,7 +77,7 @@ const setDefaultEffect = () => {
 };
 
 window.effect = {
-  onEffectChange,
-  setDefaultEffect,
+  onChange: onEffectChange,
+  setToDefault,
   resetScale
 };

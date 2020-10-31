@@ -48,24 +48,24 @@ const onStatusPanelEscPress = (evt) => {
 const resetFormAndEffect = () => {
   uploadImg.src = ``;
 
-  window.effect.setDefaultEffect();
+  window.effect.setToDefault();
 
   uploadForm.reset();
 };
 
-const successHandler = () => {
+const success = () => {
   uploadPanel.classList.add(`hidden`);
   resetFormAndEffect();
   showStatusPanel(successPanelFragment);
 };
 
-const errorHandler = () => {
+const error = () => {
   uploadPanel.classList.add(`hidden`);
   resetFormAndEffect();
   showStatusPanel(errorPanelFragment);
 };
 
 window.handlers = {
-  successHandler,
-  errorHandler
+  success,
+  error
 };

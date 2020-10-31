@@ -23,7 +23,7 @@ const showBigPicture = (evt) => {
   if (picturePath) {
     const photo = window.data.getPhoto(picturePath);
 
-    window.comments.rendenderPhotoAndComments(photo);
+    window.comments.render(photo);
 
     document.activeElement.blur();
 
@@ -37,6 +37,6 @@ const showBigPicture = (evt) => {
 const onPreviewClick = showBigPicture;
 
 window.preview = {
-  onPreviewClick,
-  onPreviewEnterPress
+  onClick: onPreviewClick,
+  onEnterPress: onPreviewEnterPress
 };

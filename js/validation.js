@@ -24,6 +24,16 @@ const getTooManyHashtagsMessage = () => `Можно ввести только ${
 
 const getHashtagDuplicateMessage = (hashtag) => `Вы ввели ${hashtag} хэштег более одного раза`;
 
+const getHashtagInputDuplicatesMessage = () => `Вы ввели некоторые хэштеги более одного раза`;
+
+const hashtagsAlreadyHaveDuplicates = (hashtags) => {
+  const hashtagsToCompare = hashtags.map((element) => element.toLowerCase());
+
+  const uniqueValues = new Set(hashtagsToCompare);
+
+  return uniqueValues.size !== hashtags.length;
+};
+
 window.validation = {
   setHashtagValidationMessage: (hashtag, index, hashtags) => {
     const [firstLetter] = hashtag;
@@ -42,6 +52,8 @@ window.validation = {
       hashtagInput.setCustomValidity(getTooManyHashtagsMessage());
     } else if (hashtags.some((element, innerIndex) => element.toLowerCase() === hashtag.toLowerCase() && element[innerIndex] !== hashtag[index])) {
       hashtagInput.setCustomValidity(getHashtagDuplicateMessage(hashtag));
+    } else if (hashtagsAlreadyHaveDuplicates(hashtags)) {
+      hashtagInput.setCustomValidity(getHashtagInputDuplicatesMessage());
     } else {
       hashtagInput.setCustomValidity(``);
     }

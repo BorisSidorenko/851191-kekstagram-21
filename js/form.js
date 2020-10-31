@@ -43,7 +43,7 @@ uploadFileInput.addEventListener(`change`, onUploadFileInputChange);
 uploadForm.addEventListener(`change`, window.effect.onEffectChange);
 
 const onHashtagInput = () => {
-  const hashtags = hashtagInput.value.split(` `);
+  const hashtags = hashtagInput.value.trim().split(` `);
 
   hashtags.forEach(window.validation.setHashtagValidationMessage);
 };

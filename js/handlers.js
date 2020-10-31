@@ -2,6 +2,8 @@
 
 const main = document.querySelector(`main`);
 const uploadForm = document.querySelector(`.img-upload__form`);
+const uploadPreview = uploadForm.querySelector(`.img-upload__preview`);
+const uploadImg = uploadPreview.querySelector(`img`);
 const uploadPanel = uploadForm.querySelector(`.img-upload__overlay`);
 
 const successFragment = document.querySelector(`#success`).content;
@@ -44,7 +46,10 @@ const onStatusPanelEscPress = (evt) => {
 };
 
 const resetFormAndEffect = () => {
+  uploadImg.src = ``;
+
   window.effect.setDefaultEffect();
+
   uploadForm.reset();
 };
 

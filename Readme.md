@@ -1,3 +1,4 @@
+<a href="https://borissidorenko.github.io/851191-kekstagram-21">Опубликованный проект "Кекстаграм"</a>
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Борис Сидоренко](https://htmlacademy.ru/profile/borissid).
